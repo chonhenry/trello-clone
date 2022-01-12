@@ -5,8 +5,8 @@ import {
   DropResult,
   DragStart,
 } from "react-beautiful-dnd";
-import GoogleIcon from "@mui/icons-material/Google";
 import Auth from "./components/Auth";
+import HomepageBoard from "./components/HomepageBoard";
 import data from "./data";
 import Column from "./components/Column";
 import "./App.css";
@@ -15,9 +15,7 @@ const App: React.FC = () => {
   return (
     <div className="h-screen w-screen flex justify-center items-center">
       <div className="flex flex-col justify-center items-center w-12/12 xl:bg-green- xl:w-auto xl:flex-row">
-        <div className="bg-red- mr-24 bg-yellow_ochre h-screen">
-          drag and drop
-        </div>
+        <HomepageBoard />
 
         <Auth />
       </div>
