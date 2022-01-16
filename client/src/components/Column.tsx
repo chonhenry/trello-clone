@@ -1,42 +1,49 @@
-import React from "react";
+import React, { useEffect } from "react";
+import Item from "./Item";
+import { ItemType, ColumnType } from "./HomepageBoard";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import Task from "./Task";
 
-const Column: React.FC<any> = ({ column, tasks, index }) => {
+interface Props {
+  index: number;
+  column: { id: string; title: string; items: string[] };
+  allItems: ItemType | null;
+}
+
+const Column: React.FC<Props> = ({ column, allItems }) => {
+  const { id, title, items: columnItems } = column;
+
+  useEffect(() => {}, []);
+
+  const addCard = () => {
+    console.log("addcard");
+  };
+
   return (
-    <Draggable draggableId={column.id} index={index}>
+    <Droppable droppableId={id}>
       {(provided) => (
         <div
-          className="m-2 w-56 border-solid border border-gray-400 flex flex-col bg-white"
-          {...provided.draggableProps}
+          className="droppable rounded w-48 p-2 mr-2 bg-col_background flex flex-col"
           ref={provided.innerRef}
+          {...provided.droppableProps}
         >
-          <h3 className="p-2" {...provided.dragHandleProps}>
-            {column.title}
-          </h3>
-          <Droppable
-            droppableId={column.id}
-            type={"task"}
-            // isDropDisabled={}
-          >
-            {(provided, snapshot) => (
-              <div
-                className={`p-2 grow min-h-min ${
-                  snapshot.isDraggingOver ? "bg-blue-300" : "white"
-                }`}
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {tasks.map((task: any, index: any) => (
-                  <Task key={task.id} task={task} index={index} />
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+          <div className="text-center">{title}</div>
+          <div className="overflow-auto grow">
+            {columnItems.map((itemId, index) => (
+              <Item
+                key={itemId}
+                id={itemId}
+                index={index}
+                item={allItems && allItems[itemId]}
+              />
+            ))}
+            {provided.placeholder}
+          </div>
+          <div className="mt-1 cursor-pointer" onClick={addCard}>
+            + Add a card
+          </div>
         </div>
       )}
-    </Draggable>
+    </Droppable>
   );
 };
 

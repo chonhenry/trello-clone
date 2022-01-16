@@ -8,7 +8,7 @@ import {
 import Auth from "./components/Auth";
 import HomepageBoard from "./components/HomepageBoard";
 import data from "./data";
-import Column from "./components/Column";
+import Column2 from "./components/Column2";
 import "./App.css";
 
 const App: React.FC = () => {
