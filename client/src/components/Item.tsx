@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Draggable, DropResult, DragStart } from "react-beautiful-dnd";
+import React from "react";
+import { Draggable } from "react-beautiful-dnd";
 
 interface Props {
   id: string;

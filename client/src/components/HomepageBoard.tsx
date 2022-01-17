@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult,
-  DragStart,
-} from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
 import Column from "./Column";
 
@@ -20,9 +14,10 @@ export interface ColumnType {
 const HomepageBoard: React.FC = () => {
   const [items, setItems] = useState<ItemType | null>(null);
   const [columns, setColumns] = useState<ColumnType>({});
+  const [columnsOrder, setColumnsOrder] = useState<string[]>([]);
 
   useEffect(() => {
-    const items_qty = 10;
+    const items_qty = 14;
     let itms: ItemType = {};
 
     for (let i = 1; i <= items_qty; i++) {
@@ -59,6 +54,8 @@ const HomepageBoard: React.FC = () => {
       items: col2Items,
     };
 
+    setColumnsOrder([col1.id, col2.id]);
+
     setColumns({
       [col1.id]: col1,
       [col2.id]: col2,
@@ -66,27 +63,39 @@ const HomepageBoard: React.FC = () => {
   }, []);
 
   const renderColumns = () => {
-    return Object.values(columns).map((col, index) => (
-      <Column key={col.id} column={col} index={index} allItems={items} />
+    return columnsOrder.map((colId, index) => (
+      <Column
+        key={colId}
+        column={columns[colId]}
+        index={index}
+        allItems={items}
+      />
     ));
   };
 
   const onDragEnd = (result: DropResult) => {
     // console.log("columns:", columns);
-    console.log("onDragEnd:", result);
+    // console.log("onDragEnd:", result);
 
     const startIndex = result.source.index;
     const startColumnId = result.source.droppableId;
     const finishIndex = result.destination?.index;
     const finishColumnId = result.destination?.droppableId;
     const itemId = result.draggableId;
-
-    // console.log("startIndex:", startIndex);
-    // console.log("startColumnId:", startColumnId);
-    // console.log("finishIndex:", finishIndex);
-    // console.log("finishColumnId:", finishColumnId);
+    const type = result.type;
 
     if (finishColumnId === undefined || finishIndex === undefined) return;
+
+    if (type === "column") {
+      let newColumnsOrder = [...columnsOrder];
+
+      newColumnsOrder.splice(startIndex, 1);
+      newColumnsOrder.splice(finishIndex, 0, itemId);
+
+      setColumnsOrder(newColumnsOrder);
+
+      return;
+    }
 
     if (startColumnId === finishColumnId) {
       const column = { ...columns[startColumnId] };
@@ -134,10 +143,23 @@ const HomepageBoard: React.FC = () => {
 
   return (
     <div
-      className="main mb-12 flex p-3 xl:mr-24 xl:mb-0 bg-cool_gray/50"
-      style={{ height: "537px", width: "700px" }}
+      className="main mb-12 flex p-3 xl:mr-12 xl:mb-0 bg-cool_gray/50"
+      style={{ height: "537px", width: "720px" }}
     >
-      <DragDropContext onDragEnd={onDragEnd}>{renderColumns()}</DragDropContext>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId={"home"} direction="horizontal" type="column">
+          {(provided) => (
+            <div
+              className="flex"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {renderColumns()}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
       <div>
         <div className="cursor-pointer bg-col_background/70 rounded p-2">
           + Add a column
