@@ -22,7 +22,7 @@ const Column: React.FC<Props> = ({ column, allItems, index }) => {
     <Draggable draggableId={column.id} index={index}>
       {(provided) => (
         <div
-          className="droppable rounded w-48 p-2 mr-2 bg-col_background flex flex-col"
+          className="droppable rounded w-44 p-2 mr-2 bg-col_background flex flex-col"
           {...provided.draggableProps}
           ref={provided.innerRef}
         >

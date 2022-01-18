@@ -42,7 +42,7 @@ const Auth: React.FC = () => {
     }));
   };
   return (
-    <div className="bg-white p-10 rounded h-auto" style={{ width: "405px" }}>
+    <div className="bg-white p-10 rounded h-auto" style={{ width: "360px" }}>
       {isSignUp ? (
         <form autoComplete="off" onSubmit={handleSubmitSignUp}>
           <label className="block mb-3">

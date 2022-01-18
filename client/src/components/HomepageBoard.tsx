@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
 import Column from "./Column";
+import AddNew from "./AddNew";
 
 export interface ItemType {
   [id: string]: { id: string; content: string };
@@ -15,16 +16,31 @@ const HomepageBoard: React.FC = () => {
   const [items, setItems] = useState<ItemType | null>(null);
   const [columns, setColumns] = useState<ColumnType>({});
   const [columnsOrder, setColumnsOrder] = useState<string[]>([]);
+  const [addColumn, setAddColumn] = useState(false);
 
   useEffect(() => {
-    const items_qty = 14;
+    const items_qty = 10;
     let itms: ItemType = {};
 
-    for (let i = 1; i <= items_qty; i++) {
+    const titles = [
+      "task 1",
+      "task 2",
+      "task 3",
+      "task 4",
+      "task 5",
+      "task 6",
+      "task 7",
+      "task 8",
+      "task 9",
+      "task 10",
+    ];
+
+    for (let i = 0; i < items_qty; i++) {
       const id = uuidv4();
       const new_item = {
         id,
-        content: `item ${i}`,
+
+        content: titles[i],
       };
 
       itms[id] = new_item;
@@ -34,31 +50,40 @@ const HomepageBoard: React.FC = () => {
 
     let col1Items = [];
     let col2Items = [];
+    let col3Items = [];
 
     for (const key in itms) {
       let n = parseInt(itms[key].content.split(" ")[1]);
 
       if (n <= 4) col1Items.push(itms[key].id);
-      else col2Items.push(itms[key].id);
+      else if (n <= 7) col2Items.push(itms[key].id);
+      else col3Items.push(itms[key].id);
     }
 
     const col1 = {
       id: uuidv4(),
-      title: "column 1",
+      title: "Open",
       items: col1Items,
     };
 
     const col2 = {
       id: uuidv4(),
-      title: "column 2",
+      title: "In Progress",
       items: col2Items,
     };
 
-    setColumnsOrder([col1.id, col2.id]);
+    const col3 = {
+      id: uuidv4(),
+      title: "Done",
+      items: col3Items,
+    };
+
+    setColumnsOrder([col1.id, col2.id, col3.id]);
 
     setColumns({
       [col1.id]: col1,
       [col2.id]: col2,
+      [col3.id]: col3,
     });
   }, []);
 
@@ -141,10 +166,25 @@ const HomepageBoard: React.FC = () => {
     }
   };
 
+  const handleAddColumn = (title: string) => {
+    const id = uuidv4();
+    const newCol = {
+      id,
+      title,
+      items: [],
+    };
+
+    setColumnsOrder((prev) => [...prev, id]);
+
+    setColumns((prev) => ({ ...prev, [id]: newCol }));
+
+    setAddColumn(false);
+  };
+
   return (
     <div
-      className="main mb-12 flex p-3 xl:mr-12 xl:mb-0 bg-cool_gray/50"
-      style={{ height: "537px", width: "720px" }}
+      className="main mb-12 flex p-3 xl:mr-12 xl:mb-0 bg-cool_gray/50 overflow-auto"
+      style={{ height: "537px", width: "760px" }}
     >
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId={"home"} direction="horizontal" type="column">
@@ -160,11 +200,25 @@ const HomepageBoard: React.FC = () => {
           )}
         </Droppable>
       </DragDropContext>
-      <div>
-        <div className="cursor-pointer bg-col_background/70 rounded p-2">
-          + Add a column
-        </div>
+      {/* <div className="container w-44"> */}
+      <div className="container-2 w-44">
+        {!addColumn ? (
+          <div
+            className="cursor-pointer bg-col_background/70 rounded p-2 w-44"
+            onClick={() => setAddColumn(true)}
+          >
+            + Add a column
+          </div>
+        ) : (
+          <AddNew
+            handleAdd={handleAddColumn}
+            cancelAdd={() => {
+              setAddColumn(false);
+            }}
+          />
+        )}
       </div>
+      {/* </div> */}
     </div>
   );
 };
