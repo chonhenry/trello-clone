@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Item from "./Item";
+import AddNew from "./AddNew";
 import { ItemType } from "./HomepageBoard";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -7,16 +8,20 @@ interface Props {
   index: number;
   column: { id: string; title: string; items: string[] };
   allItems: ItemType | null;
+  handleAddCard: (title: string, columnId: string) => void;
 }
 
-const Column: React.FC<Props> = ({ column, allItems, index }) => {
+const Column: React.FC<Props> = ({
+  column,
+  allItems,
+  index,
+  handleAddCard,
+}) => {
+  const [addCard, setAddCard] = useState(false);
+
   const { id, title, items: columnItems } = column;
 
   useEffect(() => {}, []);
-
-  const addCard = () => {
-    console.log("addcard");
-  };
 
   return (
     <Draggable draggableId={column.id} index={index}>
@@ -48,9 +53,22 @@ const Column: React.FC<Props> = ({ column, allItems, index }) => {
               </div>
             )}
           </Droppable>
-          <div className="mt-1 cursor-pointer" onClick={addCard}>
-            + Add a card
-          </div>
+          {!addCard ? (
+            <div
+              className="mt-1 cursor-pointer"
+              onClick={() => setAddCard(true)}
+            >
+              + Add a card
+            </div>
+          ) : (
+            <AddNew
+              handleAddCard={handleAddCard}
+              cancelAdd={() => {
+                setAddCard(false);
+              }}
+              columnId={column.id}
+            />
+          )}
         </div>
       )}
     </Draggable>

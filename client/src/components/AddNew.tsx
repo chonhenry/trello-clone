@@ -1,18 +1,37 @@
 import React, { useState } from "react";
 
 interface Props {
-  handleAdd: (title: string) => void;
+  handleAddColumn?: (title: string) => void;
+  handleAddCard?: (title: string, columnId: string) => void;
   cancelAdd: () => void;
+  columnId?: string;
 }
 
-const AddNew: React.FC<Props> = ({ handleAdd, cancelAdd }) => {
+const AddNew: React.FC<Props> = ({
+  handleAddColumn,
+  handleAddCard,
+  cancelAdd,
+  columnId,
+}) => {
   const [title, setTitle] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (title.length === 0) return;
-    handleAdd(title);
+
+    if (handleAddColumn) {
+      console.log(123);
+      handleAddColumn(title);
+      return;
+    }
+
+    if (handleAddCard && columnId) {
+      console.log(456);
+      handleAddCard(title, columnId);
+      cancelAdd();
+      return;
+    }
   };
 
   return (

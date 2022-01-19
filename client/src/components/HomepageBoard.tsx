@@ -19,7 +19,7 @@ const HomepageBoard: React.FC = () => {
   const [addColumn, setAddColumn] = useState(false);
 
   useEffect(() => {
-    const items_qty = 10;
+    const items_qty = 15;
     let itms: ItemType = {};
 
     const titles = [
@@ -33,13 +33,17 @@ const HomepageBoard: React.FC = () => {
       "task 8",
       "task 9",
       "task 10",
+      "task 11",
+      "task 12",
+      "task 13",
+      "task 14",
+      "task 15",
     ];
 
     for (let i = 0; i < items_qty; i++) {
       const id = uuidv4();
       const new_item = {
         id,
-
         content: titles[i],
       };
 
@@ -94,6 +98,7 @@ const HomepageBoard: React.FC = () => {
         column={columns[colId]}
         index={index}
         allItems={items}
+        handleAddCard={handleAddCard}
       />
     ));
   };
@@ -181,12 +186,32 @@ const HomepageBoard: React.FC = () => {
     setAddColumn(false);
   };
 
+  const handleAddCard = (content: string, columnId: string) => {
+    console.log(content);
+    const id = uuidv4();
+
+    const newCard = {
+      id,
+      content,
+    };
+
+    setItems((prev) => ({ ...prev, [id]: newCard }));
+
+    const column = { ...columns[columnId] };
+    const colItems = [...column.items, id];
+
+    setColumns((prev) => ({
+      ...prev,
+      [columnId]: { ...prev[columnId], items: colItems },
+    }));
+  };
+
   return (
-    <div
-      className="main mb-12 flex p-3 xl:mr-12 xl:mb-0 bg-cool_gray/50 overflow-auto"
-      style={{ height: "537px", width: "760px" }}
-    >
-      <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div
+        className="main mb-12 flex p-3 xl:mr-12 xl:mb-0 bg-cool_gray/50 overflow-auto"
+        style={{ height: "537px", width: "760px" }}
+      >
         <Droppable droppableId={"home"} direction="horizontal" type="column">
           {(provided) => (
             <div
@@ -199,27 +224,26 @@ const HomepageBoard: React.FC = () => {
             </div>
           )}
         </Droppable>
-      </DragDropContext>
-      {/* <div className="container w-44"> */}
-      <div className="container-2 w-44">
-        {!addColumn ? (
-          <div
-            className="cursor-pointer bg-col_background/70 rounded p-2 w-44"
-            onClick={() => setAddColumn(true)}
-          >
-            + Add a column
-          </div>
-        ) : (
-          <AddNew
-            handleAdd={handleAddColumn}
-            cancelAdd={() => {
-              setAddColumn(false);
-            }}
-          />
-        )}
+
+        <div className="w-44">
+          {!addColumn ? (
+            <div
+              className="cursor-pointer bg-col_background/70 rounded p-2 w-44"
+              onClick={() => setAddColumn(true)}
+            >
+              + Add a column
+            </div>
+          ) : (
+            <AddNew
+              handleAddColumn={handleAddColumn}
+              cancelAdd={() => {
+                setAddColumn(false);
+              }}
+            />
+          )}
+        </div>
       </div>
-      {/* </div> */}
-    </div>
+    </DragDropContext>
   );
 };
 
