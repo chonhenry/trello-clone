@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import GoogleIcon from "@mui/icons-material/Google";
+import * as api from "../api";
 
 const inititalSignUp = {
   name: "",
@@ -17,15 +19,38 @@ const Auth: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(true);
   const [siginUpForm, setSiginUpForm] = useState(inititalSignUp);
   const [loginForm, setLoginForm] = useState(inititalLogin);
+  const [error, setError] = useState("");
 
-  const handleSubmitSignUp = (e: React.FormEvent<HTMLFormElement>) => {
+  const navigate = useNavigate();
+
+  const handleSubmitSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("signup");
+
+    const { name, email, password, confirmPassword } = siginUpForm;
+
+    if (password !== confirmPassword) {
+      setError("Passwords don't match.");
+      return;
+    }
+
+    setError("");
+
+    try {
+      const { data } = await api.signUp({ name, email, password });
+      setError("");
+      localStorage.setItem("trello_clone_profile", JSON.stringify(data));
+      navigate("/dashboard");
+      return;
+    } catch (error: any) {
+      setError(error.response.data.message);
+      return;
+    }
   };
 
   const handleSubmitLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("login");
+    return 12;
   };
 
   const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +78,7 @@ const Auth: React.FC = () => {
               name="name"
               value={siginUpForm.name}
               onChange={handleSignUpChange}
+              required
             />
           </label>
 
@@ -64,6 +90,7 @@ const Auth: React.FC = () => {
               name="email"
               value={siginUpForm.email}
               onChange={handleSignUpChange}
+              required
             />
           </label>
 
@@ -75,19 +102,23 @@ const Auth: React.FC = () => {
               name="password"
               value={siginUpForm.password}
               onChange={handleSignUpChange}
+              required
             />
           </label>
 
           <label className="block mb-3">
-            <span className="">Confirm Password</span>
+            <span className="">Confirm Password</span>{" "}
             <input
               className="mt-1 w-full p-2 rounded border border-solid border-gray-300 focus:ring-0 focus:border-yellow_ochre"
               type="password"
               name="confirmPassword"
               value={siginUpForm.confirmPassword}
               onChange={handleSignUpChange}
+              required
             />
           </label>
+
+          {error.length > 0 && <div className="text-red-500 mb-3">{error}</div>}
 
           <div className="w-full text-center">
             <button

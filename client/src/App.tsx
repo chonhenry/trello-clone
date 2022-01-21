@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -7,19 +7,30 @@ import {
 } from "react-beautiful-dnd";
 import Auth from "./components/Auth";
 import HomepageBoard from "./components/HomepageBoard";
-import data from "./data";
-import Column2 from "./components/Column2";
+import Home from "./components/Home";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import "./App.css";
 
 const App: React.FC = () => {
-  return (
-    <div className="h-screen w-screen flex justify-center items-center">
-      <div className="flex flex-col justify-center items-center w-12/12 xl:bg-green- xl:w-auto xl:flex-row">
-        <HomepageBoard />
+  const profile = localStorage.getItem("trello_clone_profile");
+  let user;
 
-        <Auth />
-      </div>
-    </div>
+  if (profile) {
+    user = JSON.parse(profile);
+  }
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<div>dashboard</div>} />
+      </Routes>
+    </Router>
   );
 };
 
