@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
-
+import dotenv from "dotenv/config";
 import userRouter from "./routes/user.js";
 
 const app = express();
@@ -11,12 +11,11 @@ app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-const CONNECTION_URL =
-  "mongodb+srv://henrychon:24295579chon@trello-clone.r1qf9.mongodb.net/trello-clone?retryWrites=true&w=majority";
+const CONNECTION_URL = process.env.MONGO_URL;
 const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
-  res.json({ message: "hello" });
+  res.json({ message: `hello ${process.env.TEST}` });
 });
 
 app.use("/user", userRouter);
