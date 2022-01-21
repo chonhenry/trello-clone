@@ -9,6 +9,5 @@ interface SignupForm {
 }
 
 export const signUp = async (formData: SignupForm) => {
-  console.log("signUp api");
   return API.post("/user/signup", formData);
 };
