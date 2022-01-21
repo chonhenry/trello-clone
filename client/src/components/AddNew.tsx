@@ -21,13 +21,11 @@ const AddNew: React.FC<Props> = ({
     if (title.length === 0) return;
 
     if (handleAddColumn) {
-      console.log(123);
       handleAddColumn(title);
       return;
     }
 
     if (handleAddCard && columnId) {
-      console.log(456);
       handleAddCard(title, columnId);
       cancelAdd();
       return;
@@ -36,7 +34,9 @@ const AddNew: React.FC<Props> = ({
 
   return (
     <form
-      className="bg-col_background rounded w-44 p-1"
+      className={`bg-col_background rounded w-44 p-1 ${
+        handleAddCard && "absolute bottom-0 left-0"
+      }`}
       onSubmit={handleSubmit}
     >
       <input
