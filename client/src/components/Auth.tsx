@@ -47,10 +47,21 @@ const Auth: React.FC = () => {
     }
   };
 
-  const handleSubmitLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("login");
-    return 12;
+    const { email, password } = loginForm;
+
+    try {
+      const { data } = await api.login({ email, password });
+      setError("");
+      localStorage.setItem("trello_clone_profile", JSON.stringify(data));
+      navigate("/dashboard");
+      return;
+    } catch (error: any) {
+      setError(error.response.data.message);
+      return;
+    }
   };
 
   const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -140,7 +151,10 @@ const Auth: React.FC = () => {
 
           <div
             className="text-center hover:cursor-pointer"
-            onClick={() => setIsSignUp(false)}
+            onClick={() => {
+              setError("");
+              setIsSignUp(false);
+            }}
           >
             Already have an account? Login
           </div>
@@ -155,6 +169,7 @@ const Auth: React.FC = () => {
               name="email"
               value={loginForm.email}
               onChange={handleLoginChange}
+              required
             />
           </label>
 
@@ -166,8 +181,11 @@ const Auth: React.FC = () => {
               name="password"
               value={loginForm.password}
               onChange={handleLoginChange}
+              required
             />
           </label>
+
+          {error.length > 0 && <div className="text-red-500 mb-3">{error}</div>}
 
           <div className="w-full text-center">
             <button
@@ -189,7 +207,10 @@ const Auth: React.FC = () => {
 
           <div
             className="text-center hover:cursor-pointer"
-            onClick={() => setIsSignUp(true)}
+            onClick={() => {
+              setError("");
+              setIsSignUp(true);
+            }}
           >
             Don't have an account? Create one
           </div>

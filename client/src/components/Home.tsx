@@ -2,20 +2,13 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HomepageBoard from "./HomepageBoard";
 import Auth from "./Auth";
+import isLoggedIn from "../utils/isLoggedIn";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const profile = localStorage.getItem("trello_clone_profile");
-    let user;
-
-    if (profile) {
-      user = JSON.parse(profile);
-      if (user.token) {
-        navigate("/dashboard");
-      }
-    }
+    if (isLoggedIn()) navigate("/dashboard");
   }, [navigate]);
 
   return (

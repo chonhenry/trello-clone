@@ -8,6 +8,15 @@ interface SignupForm {
   password: string;
 }
 
-export const signUp = async (formData: SignupForm) => {
+interface LoginForm {
+  email: string;
+  password: string;
+}
+
+export const signUp = (formData: SignupForm) => {
   return API.post("/user/signup", formData);
+};
+
+export const login = (formData: LoginForm) => {
+  return API.post("/user/signin", formData);
 };
