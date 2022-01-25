@@ -3,25 +3,18 @@ import jwt from "jsonwebtoken";
 const secret = process.env.JWT_SECRET;
 
 const auth = async (req, res, next) => {
+  const token = req.headers["bearer-token"];
+
+  if (!token || token.length === 0) {
+    return res.status(401).json({ msg: "No token, authorization denied" });
+  }
+
   try {
-    const token = req.headers.authorization.split(" ")[1];
-    const isCustomAuth = token.length < 500;
-
-    let decodedData;
-
-    if (token && isCustomAuth) {
-      decodedData = jwt.verify(token, secret);
-
-      req.userId = decodedData?.id;
-    } else {
-      decodedData = jwt.decode(token);
-
-      req.userId = decodedData?.sub;
-    }
-
+    const decodedData = jwt.verify(token, secret);
+    req.userId = decodedData?.id;
     next();
   } catch (error) {
-    console.log(error);
+    return res.status(401).json({ msg: "Invalid token" });
   }
 };
 
