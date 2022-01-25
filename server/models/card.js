@@ -7,6 +7,14 @@ const cardSchema = Schema({
     ref: "board",
     required: true,
   },
+  column_id: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
   content: String,
   user_id: {
     type: Schema.Types.ObjectId,
@@ -18,7 +26,6 @@ const cardSchema = Schema({
     type: Date,
     default: new Date(),
   },
-  //   column_id: String,
 });
 
 export default mongoose.model("card", cardSchema);

@@ -49,11 +49,14 @@ const AddNew: React.FC<Props> = ({
       <div className="">
         <button
           type="submit"
-          className="bg-cool_gray text-yellow_ochre rounded mt-1 py-1 px-4"
+          className="bg-green text-white rounded mt-1 py-1 px-4"
         >
           Add
         </button>
-        <button className="ml-2 text-xl font-medium" onClick={cancelAdd}>
+        <button
+          className="ml-2 text-xl font-medium text-green"
+          onClick={cancelAdd}
+        >
           X
         </button>
       </div>

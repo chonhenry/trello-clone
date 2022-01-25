@@ -28,7 +28,10 @@ const Navbar: React.FC = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{ backgroundColor: "rgb(38,70,83)" }}>
+      <AppBar
+        position="static"
+        style={{ backgroundColor: "rgb(43, 122, 120)" }}
+      >
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Trello Clone

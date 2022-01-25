@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
     <div className="m-auto max-w-4xl p-3">
       <Button
         variant="contained"
-        style={{ backgroundColor: "rgb(38,70,83)" }}
+        style={{ backgroundColor: "rgb(58, 175, 169)" }}
         onClick={() => setIsCreate((prev) => !prev)}
       >
         Create a board
@@ -48,23 +48,23 @@ const Dashboard: React.FC = () => {
         <form className="mt-4" onSubmit={handleSubmit}>
           <input
             type="text"
-            className="rounded-md"
+            className="rounded-md focus:ring-0 focus:border-green"
             onChange={handleTitleChange}
             value={title}
           />
           <button
             type="submit"
-            className="text-white bg-cool_gray ml-3 py-2 px-4 rounded-md"
+            className="text-white bg-green ml-3 py-2 px-4 rounded-md"
           >
             Create
           </button>
         </form>
       )}
 
-      <div className="bg-col_background rounded-md mt-4 p-3">
+      <div className="bg-green rounded-md mt-4 p-3">
         <input
           type="text"
-          className="w-full rounded-md"
+          className="w-full rounded-md focus:ring-0 focus:border-green"
           placeholder="Search by board name"
           value={search}
           onChange={handleSearchChange}

@@ -8,12 +8,18 @@ const boardSchema = Schema({
     type: Date,
     default: new Date(),
   },
-  //   cards: [
-  //     {
-  //       type: Schema.Types.ObjectId,
-  //       ref: "card",
-  //     },
-  //   ],
+  columns: [
+    {
+      _id: Schema.Types.ObjectId,
+      title: String,
+      cards: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "card",
+        },
+      ],
+    },
+  ],
 });
 
 export default mongoose.model("board", boardSchema);

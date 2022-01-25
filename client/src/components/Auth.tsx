@@ -84,7 +84,7 @@ const Auth: React.FC = () => {
           <label className="block mb-3">
             <span className="">Your Name</span>
             <input
-              className="mt-1 w-full p-2 rounded border border-solid border-gray-300 focus:ring-0 focus:border-yellow_ochre"
+              className="mt-1 w-full p-2 rounded border border-solid border-gray-300 focus:ring-0 focus:border-green"
               type="text"
               name="name"
               value={siginUpForm.name}
@@ -96,7 +96,7 @@ const Auth: React.FC = () => {
           <label className="block mb-3">
             <span className="">Email</span>
             <input
-              className="mt-1 w-full p-2 rounded border border-solid border-gray-300 focus:ring-0 focus:border-yellow_ochre"
+              className="mt-1 w-full p-2 rounded border border-solid border-gray-300 focus:ring-0 focus:border-green"
               type="email"
               name="email"
               value={siginUpForm.email}
@@ -108,7 +108,7 @@ const Auth: React.FC = () => {
           <label className="block mb-3">
             <span className="">Password</span>
             <input
-              className="mt-1 w-full p-2 rounded border border-solid border-gray-300 focus:ring-0 focus:border-yellow_ochre"
+              className="mt-1 w-full p-2 rounded border border-solid border-gray-300 focus:ring-0 focus:border-green"
               type="password"
               name="password"
               value={siginUpForm.password}
@@ -120,7 +120,7 @@ const Auth: React.FC = () => {
           <label className="block mb-3">
             <span className="">Confirm Password</span>{" "}
             <input
-              className="mt-1 w-full p-2 rounded border border-solid border-gray-300 focus:ring-0 focus:border-yellow_ochre"
+              className="mt-1 w-full p-2 rounded border border-solid border-gray-300 focus:ring-0 focus:border-green"
               type="password"
               name="confirmPassword"
               value={siginUpForm.confirmPassword}
@@ -134,7 +134,7 @@ const Auth: React.FC = () => {
           <div className="w-full text-center">
             <button
               type="submit"
-              className="bg-cool_gray w-full mb-3 py-2 text-yellow_ochre rounded"
+              className="bg-green w-full mb-3 py-2 text-white rounded"
             >
               Sign Up
             </button>
@@ -143,7 +143,7 @@ const Auth: React.FC = () => {
           <div className="w-full text-center">
             <button
               type="button"
-              className="bg-cool_gray w-full mb-3 py-2 text-yellow_ochre rounded"
+              className="bg-green w-full mb-3 py-2 text-white rounded"
             >
               <GoogleIcon /> Sign Up with Google
             </button>
@@ -162,9 +162,9 @@ const Auth: React.FC = () => {
       ) : (
         <form autoComplete="off" onSubmit={handleSubmitLogin}>
           <label className="block mb-3">
-            <span className="text-cool_gray">Email</span>
+            <span className="text-dark_green">Email</span>
             <input
-              className="mt-1 w-full p-2 rounded border border-solid border-gray-300 focus:ring-0 focus:border-yellow_ochre"
+              className="mt-1 w-full p-2 rounded border border-solid border-gray-300 focus:ring-0 focus:border-green"
               type="email"
               name="email"
               value={loginForm.email}
@@ -174,9 +174,9 @@ const Auth: React.FC = () => {
           </label>
 
           <label className="block mb-3">
-            <span className="text-cool_gray">Password</span>
+            <span className="text-dark_green">Password</span>
             <input
-              className="mt-1 w-full p-2 rounded border border-solid border-gray-300 focus:ring-0 focus:border-yellow_ochre"
+              className="mt-1 w-full p-2 rounded border border-solid border-gray-300 focus:ring-0 focus:border-green"
               type="password"
               name="password"
               value={loginForm.password}
@@ -190,7 +190,7 @@ const Auth: React.FC = () => {
           <div className="w-full text-center">
             <button
               type="submit"
-              className="bg-cool_gray mb-3 py-3 w-full text-yellow_ochre rounded"
+              className="bg-green mb-3 py-3 w-full text-white rounded"
             >
               Login
             </button>
@@ -199,7 +199,7 @@ const Auth: React.FC = () => {
           <div className="w-full text-center">
             <button
               type="submit"
-              className="bg-cool_gray mb-3 py-3 w-full text-yellow_ochre rounded"
+              className="bg-green mb-3 py-3 w-full text-white rounded"
             >
               <GoogleIcon /> Login with Google
             </button>

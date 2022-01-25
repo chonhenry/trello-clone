@@ -209,7 +209,7 @@ const HomepageBoard: React.FC = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div
-        className="main mb-12 flex p-3 xl:mr-12 xl:mb-0 bg-cool_gray/50 overflow-auto"
+        className="main mb-12 flex p-3 xl:mr-12 xl:mb-0 bg-dark_green/50 overflow-auto"
         style={{ height: "537px", width: "760px" }}
       >
         <Droppable droppableId={"home"} direction="horizontal" type="column">
