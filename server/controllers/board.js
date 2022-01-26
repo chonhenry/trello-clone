@@ -1,5 +1,8 @@
 import BoardModel from "../models/board.js";
 
+// @route     POST /board/createBoard
+// @desc      create a new board
+// @access    private
 export const createBoard = async (req, res) => {
   const { title } = req.body;
 

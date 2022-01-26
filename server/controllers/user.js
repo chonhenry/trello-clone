@@ -4,6 +4,9 @@ import UserModel from "../models/user.js";
 
 const secret = process.env.JWT_SECRET;
 
+// @route     POST /user/signin
+// @desc      Signin user & get token
+// @access    public
 export const signin = async (req, res) => {
   const { email, password } = req.body;
 
@@ -40,6 +43,9 @@ export const signin = async (req, res) => {
   }
 };
 
+// @route     POST /user/signup
+// @desc      Signup user & get token
+// @access    public
 export const signup = async (req, res) => {
   const { email, name, password } = req.body;
 
