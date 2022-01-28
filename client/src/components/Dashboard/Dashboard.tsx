@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createBoard } from "../../api";
+import BoardTable from "./BoardTable";
 import isLoggedIn from "../../utils/isLoggedIn";
 import Button from "@mui/material/Button";
 

@@ -11,10 +11,24 @@ export const createBoard = async (req, res) => {
   try {
     const newBoard = await BoardModel.create({
       title,
-      userId: req.userId,
+      user_id: req.userId,
     });
 
     res.status(200).json({ newBoard });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+// @route     GET /board/getBoards
+// @desc      get all boards
+// @access    private
+export const getBoards = async (req, res) => {
+  try {
+    const boards = await BoardModel.find({}); // .skip(n).limit(n)
+
+    res.status(200).json(boards);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });
