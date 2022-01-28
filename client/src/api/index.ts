@@ -13,10 +13,37 @@ interface LoginForm {
   password: string;
 }
 
+const getToken = () => {
+  const profile = localStorage.getItem("trello_clone_profile");
+
+  if (!profile) return "";
+
+  const user = JSON.parse(profile);
+  if (!user.token) {
+    return "";
+  }
+
+  return user.token;
+};
+
 export const signUp = (formData: SignupForm) => {
   return API.post("/user/signup", formData);
 };
 
 export const login = (formData: LoginForm) => {
   return API.post("/user/signin", formData);
+};
+
+export const createBoard = (title: String) => {
+  const token = getToken();
+
+  return API.post(
+    "/board/createBoard",
+    { title },
+    {
+      headers: {
+        bearer_token: token,
+      },
+    }
+  );
 };
