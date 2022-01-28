@@ -21,6 +21,7 @@ const Dashboard: React.FC = () => {
 
     try {
       await createBoard(title);
+      setTitle("");
     } catch (error) {
       console.log(error);
     }
@@ -29,14 +30,12 @@ const Dashboard: React.FC = () => {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
-    console.log("handleChange");
     setTitle(e.target.value);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
-    console.log("handleSearchChange");
     setSearch(e.target.value);
   };
 
