@@ -47,3 +47,13 @@ export const createBoard = (title: String) => {
     }
   );
 };
+
+export const getBoards = () => {
+  const token = getToken();
+
+  return API.get("/board/getBoards", {
+    headers: {
+      bearer_token: token,
+    },
+  });
+};

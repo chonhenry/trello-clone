@@ -30,10 +30,10 @@ export const signin = async (req, res) => {
 
     const token = jwt.sign(
       { email: existingUser.email, id: existingUser._id },
-      secret,
-      {
-        expiresIn: "1h",
-      }
+      secret
+      // {
+      //   expiresIn: "1h",
+      // }
     );
 
     res.status(200).json({ result: existingUser, token });
@@ -67,9 +67,11 @@ export const signup = async (req, res) => {
       boards: [],
     });
 
-    const token = jwt.sign({ email: newUser.email, id: newUser._id }, secret, {
-      expiresIn: "1h",
-    });
+    // const token = jwt.sign({ email: newUser.email, id: newUser._id }, secret, {
+    //   expiresIn: "1h",
+    // });
+
+    const token = jwt.sign({ email: newUser.email, id: newUser._id }, secret);
 
     res.status(200).json({ newUser, token });
   } catch (error) {
