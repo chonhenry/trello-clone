@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GoogleIcon from "@mui/icons-material/Google";
 import * as api from "../api";
+import { useAuth } from "../hooks/useAuth";
 
 const inititalSignUp = {
   name: "",
@@ -20,6 +21,7 @@ const Auth: React.FC = () => {
   const [siginUpForm, setSiginUpForm] = useState(inititalSignUp);
   const [loginForm, setLoginForm] = useState(inititalLogin);
   const [error, setError] = useState("");
+  const { setUser } = useAuth();
 
   const navigate = useNavigate();
 
@@ -38,6 +40,7 @@ const Auth: React.FC = () => {
     try {
       const { data } = await api.signUp({ name, email, password });
       setError("");
+      setUser(data.newUser.name, data.newUser.email, data.newUser._id);
       localStorage.setItem("trello_clone_profile", JSON.stringify(data));
       navigate("/dashboard");
       return;
@@ -49,12 +52,12 @@ const Auth: React.FC = () => {
 
   const handleSubmitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("login");
     const { email, password } = loginForm;
 
     try {
       const { data } = await api.login({ email, password });
       setError("");
+      setUser(data.result.name, data.result.email, data.result._id);
       localStorage.setItem("trello_clone_profile", JSON.stringify(data));
       navigate("/dashboard");
       return;
