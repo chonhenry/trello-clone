@@ -64,7 +64,7 @@ const Navbar: React.FC = () => {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem>{user.name}</MenuItem>
+            <MenuItem>{user?.name}</MenuItem>
             <Divider />
             <MenuItem onClick={handleLogout}>
               <Link to="/">Logout</Link>

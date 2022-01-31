@@ -40,7 +40,13 @@ const Auth: React.FC = () => {
     try {
       const { data } = await api.signUp({ name, email, password });
       setError("");
-      setUser(data.newUser.name, data.newUser.email, data.newUser._id);
+      if (setUser) {
+        setUser({
+          name: data.newUser.name,
+          email: data.newUser.email,
+          _id: data.newUser._id,
+        });
+      }
       localStorage.setItem("trello_clone_profile", JSON.stringify(data));
       navigate("/dashboard");
       return;
@@ -57,7 +63,13 @@ const Auth: React.FC = () => {
     try {
       const { data } = await api.login({ email, password });
       setError("");
-      setUser(data.result.name, data.result.email, data.result._id);
+      if (setUser) {
+        setUser({
+          name: data.result.name,
+          email: data.result.email,
+          _id: data.result._id,
+        });
+      }
       localStorage.setItem("trello_clone_profile", JSON.stringify(data));
       navigate("/dashboard");
       return;
