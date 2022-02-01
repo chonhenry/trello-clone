@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard/Dashboard";
+import Board from "./components/Board/Board";
 import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { loadUser } from "./api";
@@ -36,6 +37,15 @@ const App: React.FC = () => {
             <>
               <Navbar />
               <Dashboard />
+            </>
+          }
+        />
+        <Route
+          path="/dashboard/board/:board_id"
+          element={
+            <>
+              <Navbar />
+              <Board />
             </>
           }
         />

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
@@ -27,6 +28,8 @@ export enum SortOrder {
 const BoardTable: React.FC<Boards> = ({ boards, sortBoards }) => {
   const [sortBy, setSortBy] = useState<SortBy>(SortBy.Modified_Date);
   const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.Descending);
+
+  const navigate = useNavigate();
 
   const renderTableRow = () => {
     const formatDate = (d: string) => {
@@ -60,7 +63,11 @@ const BoardTable: React.FC<Boards> = ({ boards, sortBoards }) => {
     };
 
     return boards.map((board) => (
-      <tr key={board._id} className="cursor-pointer">
+      <tr
+        key={board._id}
+        className="cursor-pointer"
+        onClick={() => navigate(`/dashboard/board/${board._id}`)}
+      >
         <td className="text-left p-2 w-6/12">{board.title}</td>
         <td className="text-left p-2 w-3/12">{formatDate(board.createdAt)}</td>
         <td className="text-left p-2 w-3/12">{formatDate(board.updatedAt)}</td>
