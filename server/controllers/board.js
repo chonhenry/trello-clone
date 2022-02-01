@@ -26,7 +26,7 @@ export const createBoard = async (req, res) => {
 // @access    private
 export const getBoards = async (req, res) => {
   try {
-    const boards = await BoardModel.find({}); // .skip(n).limit(n)
+    const boards = await BoardModel.find({ user_id: req.userId }); // .skip(n).limit(n)
 
     res.status(200).json(boards);
   } catch (error) {
