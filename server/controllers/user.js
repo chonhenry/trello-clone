@@ -4,6 +4,19 @@ import UserModel from "../models/user.js";
 
 const secret = process.env.JWT_SECRET;
 
+// @route     GET /user/auth
+// @desc      Get auth user
+// @access    Private
+export const getUser = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.userId, "-password");
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 // @route     POST /user/signin
 // @desc      Signin user & get token
 // @access    public

@@ -16,7 +16,7 @@ export const AuthContext = createContext<{
   setUser?: React.Dispatch<React.SetStateAction<User | null>>;
 }>({ user: null });
 
-export const AuthProvider: React.FC<Props> = ({ children }) => {
+export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
   return (

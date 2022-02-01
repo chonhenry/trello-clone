@@ -13,7 +13,7 @@ import { useAuth } from "../hooks/useAuth";
 
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -25,6 +25,7 @@ const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     setAnchorEl(null);
+    if (setUser) setUser(null);
     localStorage.removeItem("trello_clone_profile");
   };
 

@@ -26,6 +26,16 @@ const getToken = () => {
   return user.token;
 };
 
+export const loadUser = () => {
+  const token = getToken();
+
+  return API.get("/user/auth", {
+    headers: {
+      bearer_token: token,
+    },
+  });
+};
+
 export const signUp = (formData: SignupForm) => {
   return API.post("/user/signup", formData);
 };
