@@ -40,6 +40,7 @@ const App: React.FC = () => {
             </>
           }
         />
+
         <Route
           path="/dashboard/board/:board_id"
           element={
@@ -49,6 +50,14 @@ const App: React.FC = () => {
             </>
           }
         />
+        {/* <Route
+          path="/dashboard/board/:board_id"
+          element={
+            <Navbar>
+              <Board />
+            </Navbar>
+          }
+        /> */}
       </Routes>
     </Router>
   );
