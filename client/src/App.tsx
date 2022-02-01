@@ -13,7 +13,6 @@ const App: React.FC = () => {
   useEffect(() => {
     loadUser()
       .then((res) => {
-        console.log(res);
         if (setUser) {
           setUser({
             name: res.data.name,
