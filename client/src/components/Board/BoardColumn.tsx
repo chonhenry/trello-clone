@@ -3,6 +3,7 @@ import BoardItem from "./BoardItem";
 import AddNew from "./AddNew";
 import { ItemType } from "./Board";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import "./Board.css";
 
 interface Props {
   index: number;
@@ -27,7 +28,7 @@ const BoardColumn: React.FC<Props> = ({
     <Draggable draggableId={column.id} index={index}>
       {(provided) => (
         <div
-          className="droppable relative rounded w-44 p-2 mr-2 bg-col_background flex flex-col"
+          className="board_column rounded w-64 p-2 mr-2 bg-col_background flex flex-col"
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
@@ -37,10 +38,11 @@ const BoardColumn: React.FC<Props> = ({
           <Droppable droppableId={id}>
             {(provided) => (
               <div
-                className="grow overflow-auto"
+                className="overflow-auto"
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
+                {columnItems.length === 0 && <div className="h-1"></div>}
                 {columnItems.map((itemId, index) => (
                   <BoardItem
                     key={itemId}

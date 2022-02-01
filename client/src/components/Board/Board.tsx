@@ -22,82 +22,70 @@ const Board: React.FC = () => {
   const [addColumn, setAddColumn] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isLoggedIn()) navigate("/");
-  }, [navigate]);
+  //   useEffect(() => {
+  //     if (!isLoggedIn()) navigate("/");
+  //   }, [navigate]);
 
-  useEffect(() => {
-    const items_qty = 15;
-    let itms: ItemType = {};
+  //   useEffect(() => {
+  //     const items_qty = 15;
+  //     let itms: ItemType = {};
 
-    const titles = [
-      "task 1",
-      "task 2",
-      "task 3",
-      "task 4",
-      "task 5",
-      "task 6",
-      "task 7",
-      "task 8",
-      "task 9",
-      "task 10",
-      "task 11",
-      "task 12",
-      "task 13",
-      "task 14",
-      "task 15",
-    ];
+  //     const titles = [];
 
-    for (let i = 0; i < items_qty; i++) {
-      const id = uuidv4();
-      const new_item = {
-        id,
-        content: titles[i],
-      };
+  //     for (let i = 0; i < items_qty; i++) {
+  //       titles.push(`Task ${i + 1}`);
+  //     }
 
-      itms[id] = new_item;
-    }
+  //     for (let i = 0; i < items_qty; i++) {
+  //       const id = uuidv4();
+  //       const new_item = {
+  //         id,
+  //         content: titles[i],
+  //       };
 
-    setItems(itms);
+  //       itms[id] = new_item;
+  //     }
 
-    let col1Items = [];
-    let col2Items = [];
-    let col3Items = [];
+  //     setItems(itms);
 
-    for (const key in itms) {
-      let n = parseInt(itms[key].content.split(" ")[1]);
+  //     let col1Items = [];
+  //     let col2Items = [];
+  //     let col3Items = [];
 
-      if (n <= 4) col1Items.push(itms[key].id);
-      else if (n <= 7) col2Items.push(itms[key].id);
-      else col3Items.push(itms[key].id);
-    }
+  //     for (const key in itms) {
+  //       let n = parseInt(itms[key].content.split(" ")[1]);
 
-    const col1 = {
-      id: uuidv4(),
-      title: "Open",
-      items: col1Items,
-    };
+  //       if (n <= 4) col1Items.push(itms[key].id);
+  //       else if (n <= 7) col2Items.push(itms[key].id);
+  //       else col3Items.push(itms[key].id);
+  //     }
 
-    const col2 = {
-      id: uuidv4(),
-      title: "In Progress",
-      items: col2Items,
-    };
+  //     const col1 = {
+  //       id: uuidv4(),
+  //       title: "Open",
+  //       items: col1Items,
+  //     };
 
-    const col3 = {
-      id: uuidv4(),
-      title: "Done",
-      items: col3Items,
-    };
+  //     const col2 = {
+  //       id: uuidv4(),
+  //       title: "In Progress",
+  //       items: col2Items,
+  //     };
 
-    setColumnsOrder([col1.id, col2.id, col3.id]);
+  //     const col3 = {
+  //       id: uuidv4(),
+  //       title: "Done",
+  //       items: col3Items,
+  //     };
 
-    setColumns({
-      [col1.id]: col1,
-      [col2.id]: col2,
-      [col3.id]: col3,
-    });
-  }, []);
+  //     setColumnsOrder([col1.id, col2.id, col3.id]);
+
+  //     setColumns({
+  //       [col1.id]: col1,
+  //       [col2.id]: col2,
+  //       [col3.id]: col3,
+  //     });
+  //   }, []);
 
   const renderColumns = () => {
     return columnsOrder.map((colId, index) => (
@@ -216,11 +204,11 @@ const Board: React.FC = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="board w-full">
+      <div className="board w-full flex p-3">
         <Droppable droppableId={"home"} direction="horizontal" type="column">
           {(provided) => (
             <div
-              className="flex"
+              className="flex content-star items-start"
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
@@ -230,7 +218,7 @@ const Board: React.FC = () => {
           )}
         </Droppable>
 
-        <div className="w-44">
+        <div className="">
           {!addColumn ? (
             <div
               className="cursor-pointer bg-col_background/70 rounded p-2 w-44"
@@ -239,12 +227,14 @@ const Board: React.FC = () => {
               + Add a column
             </div>
           ) : (
-            <AddNew
-              handleAddColumn={handleAddColumn}
-              cancelAdd={() => {
-                setAddColumn(false);
-              }}
-            />
+            <div className="bg-col_background rounded p-2">
+              <AddNew
+                handleAddColumn={handleAddColumn}
+                cancelAdd={() => {
+                  setAddColumn(false);
+                }}
+              />
+            </div>
           )}
         </div>
       </div>

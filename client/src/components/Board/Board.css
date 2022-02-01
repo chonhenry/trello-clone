@@ -1,3 +1,11 @@
 .board {
   height: calc(100vh - 64px);
 }
+
+.board_column {
+  max-height: 91vh;
+}
+
+input:focus {
+  outline:none;
+}
