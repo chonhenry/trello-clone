@@ -73,6 +73,10 @@ const Dashboard: React.FC = () => {
     setSearch(e.target.value);
   };
 
+  const filterBoards = () => {
+    return [...boards].filter((board) => board.title.includes(search));
+  };
+
   return (
     <div className="m-auto max-w-4xl p-3">
       <Button
@@ -116,7 +120,7 @@ const Dashboard: React.FC = () => {
           Loading your boards...
         </div>
       ) : boards.length > 0 ? (
-        <BoardTable boards={boards} sortBoards={sortBoards} />
+        <BoardTable boards={filterBoards()} sortBoards={sortBoards} />
       ) : (
         <div className="text-center text-3xl bg-green text-light_green p-3 rounded-md">
           You don't have any boards.
