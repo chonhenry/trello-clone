@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
   const handleLogout = () => {
     setAnchorEl(null);
     if (setUser) setUser(null);
-    localStorage.removeItem("trello_clone_profile");
+    localStorage.removeItem("trello_clone_token");
   };
 
   return (

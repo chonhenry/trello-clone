@@ -1,7 +1,7 @@
 import verifyToken from "./verifyToken";
 
 const isLoggedIn = () => {
-  const profile = localStorage.getItem("trello_clone_profile");
+  const profile = localStorage.getItem("trello_clone_token");
 
   if (!profile) return false;
 

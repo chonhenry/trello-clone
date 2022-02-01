@@ -14,7 +14,7 @@ interface LoginForm {
 }
 
 const getToken = () => {
-  const profile = localStorage.getItem("trello_clone_profile");
+  const profile = localStorage.getItem("trello_clone_token");
 
   if (!profile) return "";
 
