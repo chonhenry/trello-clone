@@ -4,7 +4,7 @@ import { createBoard, getBoards } from "../../api";
 import BoardTable from "./BoardTable";
 import isLoggedIn from "../../utils/isLoggedIn";
 import Button from "@mui/material/Button";
-import { Board } from "./BoardTable";
+import { Board, SortBy, SortOrder } from "./BoardTable";
 
 const Dashboard: React.FC = () => {
   const [isCreate, setIsCreate] = useState(false);
@@ -30,6 +30,24 @@ const Dashboard: React.FC = () => {
 
     loadBoards();
   }, []);
+
+  const sortBoards = (sortBy: SortBy, sortOrder: SortOrder) => {
+    let sortedBoards: Board[] = [];
+
+    const column = sortBy === SortBy.Created_Date ? "createdAt" : "updatedAt";
+
+    if (sortOrder === SortOrder.Ascending) {
+      sortedBoards = [...boards].sort((a, b) => {
+        return new Date(a[column]).valueOf() - new Date(b[column]).valueOf();
+      });
+    } else {
+      sortedBoards = [...boards].sort((a, b) => {
+        return new Date(b[column]).valueOf() - new Date(a[column]).valueOf();
+      });
+    }
+
+    setBoards(sortedBoards);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -98,7 +116,7 @@ const Dashboard: React.FC = () => {
           Loading your boards...
         </div>
       ) : boards.length > 0 ? (
-        <BoardTable boards={boards} />
+        <BoardTable boards={boards} sortBoards={sortBoards} />
       ) : (
         <div className="text-center text-3xl bg-green text-light_green p-3 rounded-md">
           You don't have any boards.
