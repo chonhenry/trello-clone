@@ -67,3 +67,21 @@ export const getBoards = () => {
     },
   });
 };
+
+export const addColumn = (boardId: string, columnId: string, title: string) => {
+  const token = getToken();
+
+  return API.put(
+    "/board/addColumn",
+    {
+      boardId,
+      columnId,
+      title,
+    },
+    {
+      headers: {
+        bearer_token: token,
+      },
+    }
+  );
+};

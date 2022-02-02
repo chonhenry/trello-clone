@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import isLoggedIn from "../../utils/isLoggedIn";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
 import BoardColumn from "./BoardColumn";
 import AddNew from "./AddNew";
+import * as api from "../../api";
 import "./Board.css";
 
 export interface ItemType {
@@ -21,6 +22,7 @@ const Board: React.FC = () => {
   const [columnsOrder, setColumnsOrder] = useState<string[]>([]);
   const [addColumn, setAddColumn] = useState(false);
   const navigate = useNavigate();
+  const params = useParams();
 
   //   useEffect(() => {
   //     if (!isLoggedIn()) navigate("/");
@@ -164,7 +166,7 @@ const Board: React.FC = () => {
     }
   };
 
-  const handleAddColumn = (title: string) => {
+  const handleAddColumn = async (title: string) => {
     const id = uuidv4();
     const newCol = {
       id,
@@ -177,6 +179,13 @@ const Board: React.FC = () => {
     setColumns((prev) => ({ ...prev, [id]: newCol }));
 
     setAddColumn(false);
+
+    try {
+      const data = await api.addColumn(params.board_id!, id, title);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleAddCard = (content: string, columnId: string) => {
