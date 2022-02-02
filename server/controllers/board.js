@@ -36,3 +36,28 @@ export const getBoards = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+// @route     PUT /board/addColumn
+// @desc      add a new column
+// @access    private
+export const addColumn = async (req, res) => {
+  try {
+    const { boardId, columnId, title } = req.body;
+    const board = await BoardModel.findById(boardId);
+
+    const newColumn = {
+      _id: columnId,
+      title,
+      cards: [],
+    };
+
+    board.columns.push(newColumn);
+
+    board.save();
+
+    res.status(200).json(board);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};

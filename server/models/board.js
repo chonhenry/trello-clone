@@ -7,7 +7,8 @@ const boardSchema = Schema(
     title: { type: String, required: true },
     columns: [
       {
-        _id: Schema.Types.ObjectId,
+        // _id: Schema.Types.ObjectId,
+        _id: String,
         title: String,
         cards: [
           {

@@ -5,7 +5,3 @@
 .board_column {
   max-height: 91vh;
 }
-
-input:focus {
-  outline:none;
-}

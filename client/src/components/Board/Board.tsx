@@ -100,9 +100,6 @@ const Board: React.FC = () => {
   };
 
   const onDragEnd = (result: DropResult) => {
-    // console.log("columns:", columns);
-    // console.log("onDragEnd:", result);
-
     const startIndex = result.source.index;
     const startColumnId = result.source.droppableId;
     const finishIndex = result.destination?.index;

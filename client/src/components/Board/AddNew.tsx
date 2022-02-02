@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./Board.css";
 
 interface Props {
   handleAddColumn?: (title: string) => void;
