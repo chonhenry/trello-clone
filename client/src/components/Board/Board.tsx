@@ -28,70 +28,74 @@ const Board: React.FC = () => {
     if (!isLoggedIn()) navigate("/");
   }, [navigate]);
 
-  //   useEffect(() => {
-  //     if (!isLoggedIn()) navigate("/");
-  //   }, [navigate]);
+  useEffect(() => {
+    const loadBoard = async () => {
+      try {
+        const { data } = await api.getBoard(params.board_id!);
+        console.log(data);
+      } catch (error) {}
+    };
 
-  //   useEffect(() => {
-  //     const items_qty = 15;
-  //     let itms: ItemType = {};
+    loadBoard();
+    //   const items_qty = 15;
+    //   let itms: ItemType = {};
 
-  //     const titles = [];
+    //   const titles = [];
 
-  //     for (let i = 0; i < items_qty; i++) {
-  //       titles.push(`Task ${i + 1}`);
-  //     }
+    //   for (let i = 0; i < items_qty; i++) {
+    //     titles.push(`Task ${i + 1}`);
+    //   }
 
-  //     for (let i = 0; i < items_qty; i++) {
-  //       const id = uuidv4();
-  //       const new_item = {
-  //         id,
-  //         content: titles[i],
-  //       };
+    //   for (let i = 0; i < items_qty; i++) {
+    //     const id = uuidv4();
+    //     const new_item = {
+    //       id,
+    //       content: titles[i],
+    //     };
 
-  //       itms[id] = new_item;
-  //     }
+    //     itms[id] = new_item;
+    //   }
 
-  //     setItems(itms);
+    //   setItems(itms);
 
-  //     let col1Items = [];
-  //     let col2Items = [];
-  //     let col3Items = [];
+    //   let col1Items = [];
+    //   let col2Items = [];
+    //   let col3Items = [];
 
-  //     for (const key in itms) {
-  //       let n = parseInt(itms[key].content.split(" ")[1]);
+    //   for (const key in itms) {
+    //     let n = parseInt(itms[key].content.split(" ")[1]);
 
-  //       if (n <= 4) col1Items.push(itms[key].id);
-  //       else if (n <= 7) col2Items.push(itms[key].id);
-  //       else col3Items.push(itms[key].id);
-  //     }
+    //     if (n <= 4) col1Items.push(itms[key].id);
+    //     else if (n <= 7) col2Items.push(itms[key].id);
+    //     else col3Items.push(itms[key].id);
+    //   }
 
-  //     const col1 = {
-  //       id: uuidv4(),
-  //       title: "Open",
-  //       items: col1Items,
-  //     };
+    //   const col1 = {
+    //     id: uuidv4(),
+    //     title: "Open",
+    //     items: col1Items,
+    //   };
 
-  //     const col2 = {
-  //       id: uuidv4(),
-  //       title: "In Progress",
-  //       items: col2Items,
-  //     };
+    //   const col2 = {
+    //     id: uuidv4(),
+    //     title: "In Progress",
+    //     items: col2Items,
+    //   };
 
-  //     const col3 = {
-  //       id: uuidv4(),
-  //       title: "Done",
-  //       items: col3Items,
-  //     };
+    //   const col3 = {
+    //     id: uuidv4(),
+    //     title: "Done",
+    //     items: col3Items,
+    //   };
 
-  //     setColumnsOrder([col1.id, col2.id, col3.id]);
+    //   setColumnsOrder([col1.id, col2.id, col3.id]);
 
-  //     setColumns({
-  //       [col1.id]: col1,
-  //       [col2.id]: col2,
-  //       [col3.id]: col3,
-  //     });
-  //   }, []);
+    //   setColumns({
+    //     [col1.id]: col1,
+    //     [col2.id]: col2,
+    //     [col3.id]: col3,
+    //   });
+  }, []);
 
   const renderColumns = () => {
     return columnsOrder.map((colId, index) => (

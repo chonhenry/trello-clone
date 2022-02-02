@@ -68,6 +68,16 @@ export const getBoards = () => {
   });
 };
 
+export const getBoard = (boardId: string) => {
+  const token = getToken();
+
+  return API.get(`/board/${boardId}`, {
+    headers: {
+      bearer_token: token,
+    },
+  });
+};
+
 export const addColumn = (boardId: string, columnId: string, title: string) => {
   const token = getToken();
 

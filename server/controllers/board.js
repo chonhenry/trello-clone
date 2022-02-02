@@ -37,6 +37,20 @@ export const getBoards = async (req, res) => {
   }
 };
 
+// @route     GET /board/:boardId
+// @desc      get a single board
+// @access    private
+export const getBoard = async (req, res) => {
+  try {
+    const board = await BoardModel.findById(req.params.boardId);
+
+    res.status(200).json(board);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 // @route     PUT /board/addColumn
 // @desc      add a new column
 // @access    private
