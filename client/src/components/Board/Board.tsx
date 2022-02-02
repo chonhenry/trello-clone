@@ -24,6 +24,10 @@ const Board: React.FC = () => {
   const navigate = useNavigate();
   const params = useParams();
 
+  useEffect(() => {
+    if (!isLoggedIn()) navigate("/");
+  }, [navigate]);
+
   //   useEffect(() => {
   //     if (!isLoggedIn()) navigate("/");
   //   }, [navigate]);
