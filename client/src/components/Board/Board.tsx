@@ -21,6 +21,7 @@ const Board: React.FC = () => {
   const [columns, setColumns] = useState<ColumnType>({});
   const [columnsOrder, setColumnsOrder] = useState<string[]>([]);
   const [addColumn, setAddColumn] = useState(false);
+  const [boardLoading, setBoardLoading] = useState(true);
   const navigate = useNavigate();
   const params = useParams();
 
@@ -31,71 +32,29 @@ const Board: React.FC = () => {
   useEffect(() => {
     const loadBoard = async () => {
       try {
-        const { data } = await api.getBoard(params.board_id!);
-        console.log(data);
+        const { data: board } = await api.getBoard(params.board_id!);
+        const { columns } = board;
+        const order = columns.map((column: any) => column._id);
+        setColumnsOrder(order);
+
+        let cols: ColumnType = {};
+        columns.forEach((column: any) => {
+          const col = {
+            id: column._id,
+            title: column.title,
+            items: column.cards,
+          };
+
+          cols[column._id] = col;
+        });
+        setColumns(cols);
+
+        setBoardLoading(false);
       } catch (error) {}
     };
 
     loadBoard();
-    //   const items_qty = 15;
-    //   let itms: ItemType = {};
-
-    //   const titles = [];
-
-    //   for (let i = 0; i < items_qty; i++) {
-    //     titles.push(`Task ${i + 1}`);
-    //   }
-
-    //   for (let i = 0; i < items_qty; i++) {
-    //     const id = uuidv4();
-    //     const new_item = {
-    //       id,
-    //       content: titles[i],
-    //     };
-
-    //     itms[id] = new_item;
-    //   }
-
-    //   setItems(itms);
-
-    //   let col1Items = [];
-    //   let col2Items = [];
-    //   let col3Items = [];
-
-    //   for (const key in itms) {
-    //     let n = parseInt(itms[key].content.split(" ")[1]);
-
-    //     if (n <= 4) col1Items.push(itms[key].id);
-    //     else if (n <= 7) col2Items.push(itms[key].id);
-    //     else col3Items.push(itms[key].id);
-    //   }
-
-    //   const col1 = {
-    //     id: uuidv4(),
-    //     title: "Open",
-    //     items: col1Items,
-    //   };
-
-    //   const col2 = {
-    //     id: uuidv4(),
-    //     title: "In Progress",
-    //     items: col2Items,
-    //   };
-
-    //   const col3 = {
-    //     id: uuidv4(),
-    //     title: "Done",
-    //     items: col3Items,
-    //   };
-
-    //   setColumnsOrder([col1.id, col2.id, col3.id]);
-
-    //   setColumns({
-    //     [col1.id]: col1,
-    //     [col2.id]: col2,
-    //     [col3.id]: col3,
-    //   });
-  }, []);
+  }, [params.board_id]);
 
   const renderColumns = () => {
     return columnsOrder.map((colId, index) => (
@@ -189,8 +148,7 @@ const Board: React.FC = () => {
     setAddColumn(false);
 
     try {
-      const data = await api.addColumn(params.board_id!, id, title);
-      console.log(data);
+      await api.addColumn(params.board_id!, id, title);
     } catch (error) {
       console.log(error);
     }
@@ -219,38 +177,48 @@ const Board: React.FC = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="board w-full flex p-3">
-        <Droppable droppableId={"home"} direction="horizontal" type="column">
-          {(provided) => (
-            <div
-              className="flex content-star items-start"
-              ref={provided.innerRef}
-              {...provided.droppableProps}
+        {boardLoading ? (
+          <div>loading your board...</div>
+        ) : (
+          <>
+            <Droppable
+              droppableId={"home"}
+              direction="horizontal"
+              type="column"
             >
-              {renderColumns()}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+              {(provided) => (
+                <div
+                  className="flex content-star items-start"
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {renderColumns()}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
 
-        <div className="">
-          {!addColumn ? (
-            <div
-              className="cursor-pointer bg-col_background/70 rounded p-2 w-44"
-              onClick={() => setAddColumn(true)}
-            >
-              + Add a column
+            <div className="">
+              {!addColumn ? (
+                <div
+                  className="cursor-pointer bg-col_background/70 rounded p-2 w-44"
+                  onClick={() => setAddColumn(true)}
+                >
+                  + Add a column
+                </div>
+              ) : (
+                <div className="bg-col_background rounded p-2">
+                  <AddNew
+                    handleAddColumn={handleAddColumn}
+                    cancelAdd={() => {
+                      setAddColumn(false);
+                    }}
+                  />
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="bg-col_background rounded p-2">
-              <AddNew
-                handleAddColumn={handleAddColumn}
-                cancelAdd={() => {
-                  setAddColumn(false);
-                }}
-              />
-            </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
     </DragDropContext>
   );
