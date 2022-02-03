@@ -6,8 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import { useModal } from "../../hooks/useModal";
 import BoardColumn from "./BoardColumn";
 import AddNew from "./AddNew";
+import ModalBox from "./ModalBox";
 import Modal from "react-modal";
-import CloseIcon from "@mui/icons-material/Close";
 
 import * as api from "../../api";
 import "./Board.css";
@@ -204,7 +204,6 @@ const Board: React.FC = () => {
           <div>loading your board...</div>
         ) : (
           <>
-            {/* <button onClick={() => setModalOpen(true)}>open modal</button> */}
             <Droppable
               droppableId={"home"}
               direction="horizontal"
@@ -243,22 +242,7 @@ const Board: React.FC = () => {
             </div>
 
             <Modal ariaHideApp={false} isOpen={modalOpen} style={customStyles}>
-              <div className="bg-red- p-8 relative">
-                <div
-                  className="absolute top-3 right-3 p-1 cursor-pointer hover:bg-col_background rounded-full"
-                  onClick={() => setModalOpen(false)}
-                >
-                  <CloseIcon />
-                </div>
-                <div>skvbjs</div>
-                <div>skvbjs</div>
-                <div>skvbjs</div>
-                <div>skvbjs</div>
-                <div>skvbjs</div>
-                <div>skvbjs</div>
-                <div>skvbjs</div>
-                <div>skvbjs</div>
-              </div>
+              <ModalBox />
             </Modal>
           </>
         )}
