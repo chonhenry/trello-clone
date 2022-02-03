@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { loadUser } from "./api";
 import { useAuth } from "./hooks/useAuth";
+import { ModalProvider } from "./context/ModalContext";
 import "./App.css";
 
 const App: React.FC = () => {
@@ -46,7 +47,9 @@ const App: React.FC = () => {
           element={
             <>
               <Navbar />
-              <Board />
+              <ModalProvider>
+                <Board />
+              </ModalProvider>
             </>
           }
         />

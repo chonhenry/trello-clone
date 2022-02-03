@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import isLoggedIn from "../../utils/isLoggedIn";
 import { useNavigate, useParams } from "react-router-dom";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
+import { useModal } from "../../hooks/useModal";
 import BoardColumn from "./BoardColumn";
 import AddNew from "./AddNew";
 import Modal from "react-modal";
@@ -22,6 +23,9 @@ export interface ColumnType {
 Modal.setAppElement("#root");
 
 const customStyles = {
+  overlay: {
+    backgroundColor: "rgba(23, 37, 42, 0.7)",
+  },
   content: {
     top: "50%",
     left: "50%",
@@ -40,9 +44,9 @@ const Board: React.FC = () => {
   const [columnsOrder, setColumnsOrder] = useState<string[]>([]);
   const [addColumn, setAddColumn] = useState(false);
   const [boardLoading, setBoardLoading] = useState(true);
-  const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
+  const { modalOpen, setModalOpen } = useModal();
 
   useEffect(() => {
     if (!isLoggedIn()) navigate("/");
@@ -200,7 +204,7 @@ const Board: React.FC = () => {
           <div>loading your board...</div>
         ) : (
           <>
-            <button onClick={() => setModalOpen(true)}>open modal</button>
+            {/* <button onClick={() => setModalOpen(true)}>open modal</button> */}
             <Droppable
               droppableId={"home"}
               direction="horizontal"
