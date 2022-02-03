@@ -1,5 +1,6 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
+import { useModal } from "../../hooks/useModal";
 
 interface Props {
   id: string;
@@ -11,6 +12,8 @@ interface Props {
 }
 
 const BoardItem: React.FC<Props> = ({ id, index, item }) => {
+  const { setModalOpen } = useModal();
+
   return (
     item && (
       <Draggable draggableId={item.id} index={index}>
@@ -21,7 +24,7 @@ const BoardItem: React.FC<Props> = ({ id, index, item }) => {
             {...provided.dragHandleProps}
             ref={provided.innerRef}
           >
-            {item?.content}
+            <div onClick={() => setModalOpen(true)}>{item?.content}</div>
           </div>
         )}
       </Draggable>
