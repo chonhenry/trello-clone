@@ -176,7 +176,7 @@ const Board: React.FC = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="board w-full flex p-3">
+      <div className="board w-full flex p-3 overflow-auto">
         {boardLoading ? (
           <div>loading your board...</div>
         ) : (
