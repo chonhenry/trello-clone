@@ -65,10 +65,12 @@ const ModalBox: React.FC = () => {
             <DescriptionIcon /> Description
           </div>
           <textarea
-            className="mb-2 w-full h-80 bg-col_background"
+            className="mb-2 w-full h-80 rounded bg-col_background"
             style={{ resize: "none", border: "none" }}
             onFocus={() => setTextareaOnFocus(true)}
             onBlur={() => setTextareaOnFocus(false)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
           {textareaOnFocus && (
             <button className="bg-green py-2 px-4 text-white rounded">
