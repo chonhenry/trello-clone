@@ -16,13 +16,19 @@ const cardSchema = Schema(
       type: String,
       required: true,
     },
-    content: String,
+    description: {
+      type: String,
+      default: "",
+    },
     user_id: {
       type: Schema.Types.ObjectId,
       ref: "user",
       required: true,
     },
-    label: String,
+    label: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,

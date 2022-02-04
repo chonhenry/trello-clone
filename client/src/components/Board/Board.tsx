@@ -207,7 +207,6 @@ const Board: React.FC = () => {
     }));
 
     try {
-      console.log("api addCard");
       api.addCard(content, params.board_id!, columnId);
     } catch (error) {
       console.log(error);

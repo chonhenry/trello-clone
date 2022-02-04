@@ -119,3 +119,13 @@ export const getCardsTitle = async (boardId: string) => {
     },
   });
 };
+
+export const getCard = async (cardId: string) => {
+  const token = getToken();
+
+  return API.get(`/board/getCard/${cardId}`, {
+    headers: {
+      bearer_token: token,
+    },
+  });
+};

@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { loadUser } from "./api";
 import { useAuth } from "./hooks/useAuth";
 import { ModalProvider } from "./context/ModalContext";
+import { CardProvider } from "./context/CardContext";
 import "./App.css";
 
 const App: React.FC = () => {
@@ -47,9 +48,11 @@ const App: React.FC = () => {
           element={
             <>
               <Navbar />
-              <ModalProvider>
-                <Board />
-              </ModalProvider>
+              <CardProvider>
+                <ModalProvider>
+                  <Board />
+                </ModalProvider>
+              </CardProvider>
             </>
           }
         />

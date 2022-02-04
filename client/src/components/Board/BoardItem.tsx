@@ -1,6 +1,7 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useModal } from "../../hooks/useModal";
+import { useCard } from "../../hooks/useCard";
 
 interface Props {
   id: string;
@@ -13,6 +14,7 @@ interface Props {
 
 const BoardItem: React.FC<Props> = ({ id, index, item }) => {
   const { setModalOpen } = useModal();
+  const { setCardId } = useCard();
 
   return (
     item && (
@@ -24,7 +26,14 @@ const BoardItem: React.FC<Props> = ({ id, index, item }) => {
             {...provided.dragHandleProps}
             ref={provided.innerRef}
           >
-            <div onClick={() => setModalOpen(true)}>{item?.content}</div>
+            <div
+              onClick={() => {
+                setCardId(id);
+                setModalOpen(true);
+              }}
+            >
+              {item?.content}
+            </div>
           </div>
         )}
       </Draggable>

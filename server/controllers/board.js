@@ -137,3 +137,19 @@ export const getCards = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+// @route     GET /board/getCard/cardId
+// @desc      get a single card
+// @access    private
+export const getCard = async (req, res) => {
+  try {
+    const card = await CardModel.findById(
+      mongoose.Types.ObjectId(req.params.cardId)
+    );
+
+    res.status(200).json(card);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};

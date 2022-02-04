@@ -1,15 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useModal } from "../../hooks/useModal";
+import { useCard } from "../../hooks/useCard";
 import CloseIcon from "@mui/icons-material/Close";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import LabelIcon from "@mui/icons-material/Label";
 import DescriptionIcon from "@mui/icons-material/Description";
+import * as api from "../../api";
 
 const ModalBox: React.FC = () => {
   const { setModalOpen } = useModal();
+  const { cardId, setCardId } = useCard();
   const [textareaOnFocus, setTextareaOnFocus] = useState(false);
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCard = async () => {
+      try {
+        const { data: card } = await api.getCard(cardId);
+        console.log(card);
+
+        setLoading(false);
+      } catch (error) {}
+    };
+
+    fetchCard();
+  }, []);
 
   const renderLabels = () => {
     const labelColors = [
@@ -37,56 +54,65 @@ const ModalBox: React.FC = () => {
     <div className="bg-red- p-6 relative" style={{ width: "770px" }}>
       <div
         className="absolute top-1 right-1 p-1 cursor-pointer hover:bg-col_background rounded-full"
-        onClick={() => setModalOpen(false)}
+        onClick={() => {
+          setModalOpen(false);
+          setCardId("");
+        }}
       >
         <CloseIcon />
       </div>
 
-      <div className="flex mb-2">
-        <div className="mr-2 pt-1">
-          <SubtitlesIcon />
-        </div>
-        <div className="grow">
-          <div className="font-bold text-2xl">
-            <input
-              className="pl-2"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              onBlur={() => console.log("title onblur")}
-            />
-          </div>
-          <div className="ml-2">in column</div>
-        </div>
-      </div>
-
-      <div className="flex">
-        <div className="w-3/4 bg-red-30 mr-3">
-          <div className="mb-1">
-            <DescriptionIcon /> Description
-          </div>
-          <textarea
-            className="mb-2 w-full h-80 rounded bg-col_background"
-            style={{ resize: "none", border: "none" }}
-            onFocus={() => setTextareaOnFocus(true)}
-            onBlur={() => setTextareaOnFocus(false)}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          {textareaOnFocus && (
-            <button className="bg-green py-2 px-4 text-white rounded">
-              Save
-            </button>
-          )}
-        </div>
-
-        <div className="w-1/4 ">
-          <div className="mb-1">
-            <LabelIcon /> Labels
+      {loading ? (
+        <div>loading...</div>
+      ) : (
+        <>
+          <div className="flex mb-2">
+            <div className="mr-2 pt-1">
+              <SubtitlesIcon />
+            </div>
+            <div className="grow">
+              <div className="font-bold text-2xl">
+                <input
+                  className="pl-2"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  onBlur={() => console.log("title onblur")}
+                />
+              </div>
+              <div className="ml-2">in column</div>
+            </div>
           </div>
 
-          {renderLabels()}
-        </div>
-      </div>
+          <div className="flex">
+            <div className="w-3/4 bg-red-30 mr-3">
+              <div className="mb-1">
+                <DescriptionIcon /> Description
+              </div>
+              <textarea
+                className="mb-2 w-full h-80 rounded bg-col_background"
+                style={{ resize: "none", border: "none" }}
+                onFocus={() => setTextareaOnFocus(true)}
+                onBlur={() => setTextareaOnFocus(false)}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              {textareaOnFocus && (
+                <button className="bg-green py-2 px-4 text-white rounded">
+                  Save
+                </button>
+              )}
+            </div>
+
+            <div className="w-1/4 ">
+              <div className="mb-1">
+                <LabelIcon /> Labels
+              </div>
+
+              {renderLabels()}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
