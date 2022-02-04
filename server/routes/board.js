@@ -7,6 +7,7 @@ import {
   createCard,
   getCards,
   getCard,
+  changeCardTitle,
 } from "../controllers/board.js";
 import auth from "../middleware/auth.js";
 
@@ -19,5 +20,6 @@ router.put("/addColumn", auth, addColumn);
 router.post("/createCard", auth, createCard);
 router.get("/getCards", auth, getCards);
 router.get("/getCard/:cardId", auth, getCard);
+router.put("/changeCardTitle", auth, changeCardTitle);
 
 export default router;

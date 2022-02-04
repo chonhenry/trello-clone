@@ -153,3 +153,22 @@ export const getCard = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+// @route     PUT /board/changeCardTitle
+// @desc      change card title
+// @access    private
+export const changeCardTitle = async (req, res) => {
+  try {
+    const { cardId, title } = req.body;
+    const card = await CardModel.findById(cardId);
+
+    card.title = title;
+
+    card.save();
+
+    res.status(200).json(card);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};

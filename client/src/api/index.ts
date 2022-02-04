@@ -129,3 +129,20 @@ export const getCard = async (cardId: string) => {
     },
   });
 };
+
+export const changeCardTitle = async (cardId: string, title: string) => {
+  const token = getToken();
+
+  return API.put(
+    "/board/changeCardTitle",
+    {
+      cardId,
+      title,
+    },
+    {
+      headers: {
+        bearer_token: token,
+      },
+    }
+  );
+};

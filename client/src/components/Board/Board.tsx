@@ -257,9 +257,9 @@ const Board: React.FC = () => {
               )}
             </div>
 
-            <Modal ariaHideApp={false} isOpen={modalOpen} style={customStyles}>
+            {/* <Modal ariaHideApp={false} isOpen={modalOpen} style={customStyles}>
               <ModalBox />
-            </Modal>
+            </Modal> */}
           </>
         )}
       </div>

@@ -7,26 +7,28 @@ import LabelIcon from "@mui/icons-material/Label";
 import DescriptionIcon from "@mui/icons-material/Description";
 import * as api from "../../api";
 
-const ModalBox: React.FC = () => {
-  const { setModalOpen } = useModal();
+interface Props {
+  id: string;
+  loading: boolean;
+  description: string;
+  title: string;
+  label: string;
+  setDescription: React.Dispatch<React.SetStateAction<string>>;
+  setLabel: React.Dispatch<React.SetStateAction<string>>;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ModalBox: React.FC<Props> = ({
+  id,
+  loading,
+  title,
+  setTitle,
+  setModalOpen,
+}) => {
   const { cardId, setCardId } = useCard();
   const [textareaOnFocus, setTextareaOnFocus] = useState(false);
   const [description, setDescription] = useState("");
-  const [title, setTitle] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchCard = async () => {
-      try {
-        const { data: card } = await api.getCard(cardId);
-        console.log(card);
-
-        setLoading(false);
-      } catch (error) {}
-    };
-
-    fetchCard();
-  }, []);
 
   const renderLabels = () => {
     const labelColors = [
@@ -54,10 +56,7 @@ const ModalBox: React.FC = () => {
     <div className="bg-red- p-6 relative" style={{ width: "770px" }}>
       <div
         className="absolute top-1 right-1 p-1 cursor-pointer hover:bg-col_background rounded-full"
-        onClick={() => {
-          setModalOpen(false);
-          setCardId("");
-        }}
+        onClick={() => setModalOpen(false)}
       >
         <CloseIcon />
       </div>
@@ -76,7 +75,7 @@ const ModalBox: React.FC = () => {
                   className="pl-2"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  onBlur={() => console.log("title onblur")}
+                  onBlur={() => api.changeCardTitle(id, title)}
                 />
               </div>
               <div className="ml-2">in column</div>
