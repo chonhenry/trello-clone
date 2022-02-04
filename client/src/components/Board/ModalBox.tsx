@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useModal } from "../../hooks/useModal";
-import { useCard } from "../../hooks/useCard";
 import CloseIcon from "@mui/icons-material/Close";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import LabelIcon from "@mui/icons-material/Label";
 import DescriptionIcon from "@mui/icons-material/Description";
 import CheckIcon from "@mui/icons-material/Check";
+import { useParams } from "react-router-dom";
 import * as api from "../../api";
 
 interface Props {
@@ -34,6 +33,7 @@ const ModalBox: React.FC<Props> = ({
   setDescription,
 }) => {
   const [textareaOnFocus, setTextareaOnFocus] = useState(false);
+  const params = useParams();
 
   const changeLabel = async (color: string) => {
     if (color === label) {
@@ -43,6 +43,8 @@ const ModalBox: React.FC<Props> = ({
       setLabel(color);
       await api.changeCardLabel(id, color);
     }
+
+    await api.updateDate(params.board_id!);
   };
 
   const renderLabels = () => {
@@ -59,8 +61,8 @@ const ModalBox: React.FC<Props> = ({
   };
 
   const saveDescription = async () => {
-    console.log(561453);
     await api.changeCardDescription(id, description);
+    await api.updateDate(params.board_id!);
   };
 
   return (
@@ -86,7 +88,10 @@ const ModalBox: React.FC<Props> = ({
                   className="pl-1"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  onBlur={() => api.changeCardTitle(id, title)}
+                  onBlur={() => {
+                    api.changeCardTitle(id, title);
+                    api.updateDate(params.board_id!);
+                  }}
                 />
               </div>
               {/* <div className="ml-2">in column</div> */}

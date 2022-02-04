@@ -122,6 +122,25 @@ export const addColumn = async (req, res) => {
   }
 };
 
+// @route     PUT /board/updateDate
+// @desc      update updated date and time
+// @access    private
+export const updateDate = async (req, res) => {
+  try {
+    const { boardId, newDate } = req.body;
+    const board = await BoardModel.findById(boardId);
+
+    board.updatedAt = newDate;
+
+    board.save();
+
+    res.status(200).json(board);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 // @route     GET /board/getCards?boardId&columnId
 // @desc      get cards of a specfic board
 // @access    private

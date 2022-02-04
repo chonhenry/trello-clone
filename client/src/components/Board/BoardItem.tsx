@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { useModal } from "../../hooks/useModal";
 import { useCard } from "../../hooks/useCard";
 import Modal from "react-modal";
 import ModalBox from "./ModalBox";
@@ -45,7 +44,6 @@ const labelColors = [
 ];
 
 const BoardItem: React.FC<Props> = ({ id, index, item }) => {
-  const { cardId, setCardId } = useCard();
   const [title, setTitle] = useState<string>(item!.content);
   const [loading, setLoading] = useState(true);
   const [description, setDescription] = useState("");

@@ -182,3 +182,20 @@ export const changeCardDescription = async (
     }
   );
 };
+
+export const updateDate = async (boardId: string) => {
+  const token = getToken();
+
+  return API.put(
+    "/board/updateDate",
+    {
+      boardId,
+      newDate: new Date(),
+    },
+    {
+      headers: {
+        bearer_token: token,
+      },
+    }
+  );
+};
