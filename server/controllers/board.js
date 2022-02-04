@@ -129,11 +129,20 @@ export const getCards = async (req, res) => {
   const { boardId, columnId } = req.query;
 
   try {
-    const boards = await BoardModel.findById(boardId);
-    const { columns } = boards;
+    const board = await BoardModel.findById(boardId);
+    const { columns } = board;
 
-    const column = columns.find((column) => column._id === columnId);
-    res.status(200).json(column.cards);
+    const cardIds = columns.find((column) => column._id === columnId).cards;
+
+    const cards = [];
+
+    for (let i = 0; i < cardIds.length; i++) {
+      const card = await CardModel.findById(cardIds[i]);
+
+      cards.push({ id: card._id, content: card.title });
+    }
+
+    res.status(200).json(cards);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });
