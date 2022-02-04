@@ -199,3 +199,28 @@ export const updateDate = async (boardId: string) => {
     }
   );
 };
+
+export const saveColumnsOrder = async (
+  boardId: string,
+  startIndex: number,
+  finishIndex: number,
+  columnId: string
+) => {
+  const token = getToken();
+
+  return API.put(
+    "/board/saveColumnsOrder",
+    {
+      boardId,
+      startIndex,
+      finishIndex,
+      columnId,
+      newDate: new Date(),
+    },
+    {
+      headers: {
+        bearer_token: token,
+      },
+    }
+  );
+};

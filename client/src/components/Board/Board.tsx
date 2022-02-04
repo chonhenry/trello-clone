@@ -80,7 +80,7 @@ const Board: React.FC = () => {
     ));
   };
 
-  const onDragEnd = (result: DropResult) => {
+  const onDragEnd = async (result: DropResult) => {
     const startIndex = result.source.index;
     const startColumnId = result.source.droppableId;
     const finishIndex = result.destination?.index;
@@ -90,6 +90,7 @@ const Board: React.FC = () => {
 
     if (finishColumnId === undefined || finishIndex === undefined) return;
 
+    // drag and drop column
     if (type === "column") {
       let newColumnsOrder = [...columnsOrder];
 
@@ -97,10 +98,16 @@ const Board: React.FC = () => {
       newColumnsOrder.splice(finishIndex, 0, itemId);
 
       setColumnsOrder(newColumnsOrder);
-
+      await api.saveColumnsOrder(
+        params.board_id!,
+        startIndex,
+        finishIndex,
+        itemId
+      );
       return;
     }
 
+    // drag and drop card
     if (startColumnId === finishColumnId) {
       const column = { ...columns[startColumnId] };
       const items = [...column.items];

@@ -122,6 +122,32 @@ export const addColumn = async (req, res) => {
   }
 };
 
+// @route     PUT /board/saveColumnsOrder
+// @desc      change and save the columns order of a board
+// @access    private
+export const saveColumnsOrder = async (req, res) => {
+  const { boardId, startIndex, finishIndex, columnId, newDate } = req.body;
+  try {
+    const board = await BoardModel.findById(boardId);
+    const newColumnsOrder = [...board.columns];
+
+    const column = newColumnsOrder.find((col) => col._id === columnId);
+
+    newColumnsOrder.splice(startIndex, 1);
+    newColumnsOrder.splice(finishIndex, 0, column);
+
+    board.columns = newColumnsOrder;
+    board.updatedAt = newDate;
+
+    board.save();
+
+    res.status(200).json(board);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 // @route     PUT /board/updateDate
 // @desc      update updated date and time
 // @access    private
