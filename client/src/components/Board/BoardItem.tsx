@@ -32,6 +32,18 @@ const customStyles = {
   },
 };
 
+const labelColors = [
+  "#61bd4f",
+  "#f2d600",
+  "#ff9f1a",
+  "#eb5a46",
+  "#c377e0",
+  "#00c2e0",
+  "#ff78cb",
+  "#b3bac5",
+  "#344563",
+];
+
 const BoardItem: React.FC<Props> = ({ id, index, item }) => {
   const { cardId, setCardId } = useCard();
   const [title, setTitle] = useState<string>(item!.content);
@@ -44,10 +56,8 @@ const BoardItem: React.FC<Props> = ({ id, index, item }) => {
     const fetchCard = async () => {
       try {
         const { data: card } = await api.getCard(id);
-        console.log(card);
         setDescription(card.description);
         setLabel(card.label);
-        // setLabel(card.label);
         setLoading(false);
       } catch (error) {}
     };
@@ -66,17 +76,18 @@ const BoardItem: React.FC<Props> = ({ id, index, item }) => {
               {...provided.dragHandleProps}
               ref={provided.innerRef}
             >
+              {label && (
+                <div
+                  className="rounded w-12 h-3"
+                  style={{ background: `${label}` }}
+                ></div>
+              )}
               <div onClick={() => setModalOpen(true)}>{title}</div>
             </div>
           )}
         </Draggable>
 
-        <Modal
-          ariaHideApp={false}
-          isOpen={modalOpen}
-          // isOpen={cardId.length > 0 && cardId === id}
-          style={customStyles}
-        >
+        <Modal ariaHideApp={false} isOpen={modalOpen} style={customStyles}>
           <ModalBox
             title={title}
             description={description}
@@ -86,6 +97,7 @@ const BoardItem: React.FC<Props> = ({ id, index, item }) => {
             setLabel={setLabel}
             setTitle={setTitle}
             setModalOpen={setModalOpen}
+            labelColors={labelColors}
             id={id}
           />
         </Modal>

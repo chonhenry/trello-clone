@@ -5,6 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import LabelIcon from "@mui/icons-material/Label";
 import DescriptionIcon from "@mui/icons-material/Description";
+import CheckIcon from "@mui/icons-material/Check";
 import * as api from "../../api";
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
   description: string;
   title: string;
   label: string;
+  labelColors: string[];
   setDescription: React.Dispatch<React.SetStateAction<string>>;
   setLabel: React.Dispatch<React.SetStateAction<string>>;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
@@ -23,33 +25,42 @@ const ModalBox: React.FC<Props> = ({
   id,
   loading,
   title,
+  label,
+  labelColors,
+  description,
   setTitle,
   setModalOpen,
+  setLabel,
+  setDescription,
 }) => {
-  const { cardId, setCardId } = useCard();
   const [textareaOnFocus, setTextareaOnFocus] = useState(false);
-  const [description, setDescription] = useState("");
+
+  const changeLabel = async (color: string) => {
+    if (color === label) {
+      setLabel("");
+      await api.changeCardLabel(id, "");
+    } else {
+      setLabel(color);
+      await api.changeCardLabel(id, color);
+    }
+  };
 
   const renderLabels = () => {
-    const labelColors = [
-      "#61bd4f",
-      "#f2d600",
-      "#ff9f1a",
-      "#eb5a46",
-      "#c377e0",
-      "#00c2e0",
-      "#ff78cb",
-      "#b3bac5",
-      "#344563",
-    ];
-
     return labelColors.map((color) => (
       <div
-        className="w-full h-7 mb-1 rounded hover:cursor-pointer"
+        className="w-full h-7 mb-1 rounded hover:cursor-pointer text-white text-center"
         key={color}
         style={{ backgroundColor: color }}
-      ></div>
+        onClick={() => changeLabel(color)}
+      >
+        {label === color && <CheckIcon />}
+      </div>
     ));
+  };
+
+  const saveDescription = async () => {
+    console.log(561453);
+    await api.changeCardDescription(id, description);
   };
 
   return (
@@ -66,37 +77,43 @@ const ModalBox: React.FC<Props> = ({
       ) : (
         <>
           <div className="flex mb-2">
-            <div className="mr-2 pt-1">
+            <div className="mr-1 pt-1">
               <SubtitlesIcon />
             </div>
             <div className="grow">
               <div className="font-bold text-2xl">
                 <input
-                  className="pl-2"
+                  className="pl-1"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   onBlur={() => api.changeCardTitle(id, title)}
                 />
               </div>
-              <div className="ml-2">in column</div>
+              {/* <div className="ml-2">in column</div> */}
             </div>
           </div>
 
           <div className="flex">
             <div className="w-3/4 bg-red-30 mr-3">
               <div className="mb-1">
-                <DescriptionIcon /> Description
+                <DescriptionIcon /> <span className="ml-1">Description</span>
               </div>
               <textarea
                 className="mb-2 w-full h-80 rounded bg-col_background"
                 style={{ resize: "none", border: "none" }}
                 onFocus={() => setTextareaOnFocus(true)}
-                onBlur={() => setTextareaOnFocus(false)}
+                onBlur={() => {
+                  setTextareaOnFocus(false);
+                  saveDescription();
+                }}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
               {textareaOnFocus && (
-                <button className="bg-green py-2 px-4 text-white rounded">
+                <button
+                  className="bg-green py-2 px-4 text-white rounded"
+                  onClick={() => saveDescription()}
+                >
                   Save
                 </button>
               )}

@@ -172,3 +172,41 @@ export const changeCardTitle = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+// @route     PUT /board/changeCardLabel
+// @desc      change card label
+// @access    private
+export const changeCardLabel = async (req, res) => {
+  try {
+    const { cardId, label } = req.body;
+    const card = await CardModel.findById(cardId);
+
+    card.label = label;
+
+    card.save();
+
+    res.status(200).json(card);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+// @route     PUT /board/changeCardDescription
+// @desc      change card description
+// @access    private
+export const changeCardDescription = async (req, res) => {
+  try {
+    const { cardId, description } = req.body;
+    const card = await CardModel.findById(cardId);
+
+    card.description = description;
+
+    card.save();
+
+    res.status(200).json(card);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};

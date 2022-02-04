@@ -146,3 +146,39 @@ export const changeCardTitle = async (cardId: string, title: string) => {
     }
   );
 };
+
+export const changeCardLabel = async (cardId: string, label: string) => {
+  const token = getToken();
+
+  return API.put(
+    "/board/changeCardLabel",
+    {
+      cardId,
+      label,
+    },
+    {
+      headers: {
+        bearer_token: token,
+      },
+    }
+  );
+};
+
+export const changeCardDescription = async (
+  cardId: string,
+  description: string
+) => {
+  const token = getToken();
+  return API.put(
+    "/board/changeCardDescription",
+    {
+      cardId,
+      description,
+    },
+    {
+      headers: {
+        bearer_token: token,
+      },
+    }
+  );
+};
