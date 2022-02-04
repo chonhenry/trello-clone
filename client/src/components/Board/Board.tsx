@@ -8,7 +8,6 @@ import BoardColumn from "./BoardColumn";
 import AddNew from "./AddNew";
 import ModalBox from "./ModalBox";
 import Modal from "react-modal";
-
 import * as api from "../../api";
 import "./Board.css";
 
@@ -55,6 +54,18 @@ const Board: React.FC = () => {
   useEffect(() => {
     const loadBoard = async () => {
       try {
+        const { data: cards } = await api.getCardsTitle(params.board_id!);
+        const itemsState: ItemType = {};
+
+        cards.forEach((card: any) => {
+          itemsState[card._id] = {
+            id: card._id,
+            content: card.title,
+          };
+        });
+
+        setItems(itemsState);
+
         const { data: board } = await api.getBoard(params.board_id!);
         const { columns } = board;
         const order = columns.map((column: any) => column._id);

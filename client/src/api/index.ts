@@ -109,3 +109,13 @@ export const addCard = (title: string, board_id: string, column_id: string) => {
     }
   );
 };
+
+export const getCardsTitle = async (boardId: string) => {
+  const token = getToken();
+
+  return API.get(`/board/getCards?boardId=${boardId}`, {
+    headers: {
+      bearer_token: token,
+    },
+  });
+};

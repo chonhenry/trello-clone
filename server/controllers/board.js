@@ -126,21 +126,10 @@ export const addColumn = async (req, res) => {
 // @desc      get cards of a specfic board
 // @access    private
 export const getCards = async (req, res) => {
-  const { boardId, columnId } = req.query;
+  const { boardId } = req.query;
 
   try {
-    const board = await BoardModel.findById(boardId);
-    const { columns } = board;
-
-    const cardIds = columns.find((column) => column._id === columnId).cards;
-
-    const cards = [];
-
-    for (let i = 0; i < cardIds.length; i++) {
-      const card = await CardModel.findById(cardIds[i]);
-
-      cards.push({ id: card._id, content: card.title });
-    }
+    const cards = await CardModel.find({ board_id: boardId });
 
     res.status(200).json(cards);
   } catch (error) {
