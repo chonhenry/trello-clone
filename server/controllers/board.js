@@ -122,20 +122,20 @@ export const addColumn = async (req, res) => {
   }
 };
 
-// // @route     GET /board/getCards
-// // @desc      get cards of a specfic board
-// // @access    private
-// export const getCards = async (req, res) => {
-//   // const { boardId } = req.query;
-//   // console.log(boardId);
-//   try {
-//     // const boards = await BoardModel.findById(req.params.boardId);
+// @route     GET /board/getCards?boardId&columnId
+// @desc      get cards of a specfic board
+// @access    private
+export const getCards = async (req, res) => {
+  const { boardId, columnId } = req.query;
 
-//     // res.status(200).json(boards);
-//     console.log("getCards");
-//     res.json({ msg: "getCards" });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ message: "Something went wrong" });
-//   }
-// };
+  try {
+    const boards = await BoardModel.findById(boardId);
+    const { columns } = boards;
+
+    const column = columns.find((column) => column._id === columnId);
+    res.status(200).json(column.cards);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
