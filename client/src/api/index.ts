@@ -71,7 +71,7 @@ export const getBoards = () => {
 export const getBoard = (boardId: string) => {
   const token = getToken();
 
-  return API.get(`/board/${boardId}`, {
+  return API.get(`/board/getBoard/${boardId}`, {
     headers: {
       bearer_token: token,
     },
@@ -88,6 +88,20 @@ export const addColumn = (boardId: string, columnId: string, title: string) => {
       columnId,
       title,
     },
+    {
+      headers: {
+        bearer_token: token,
+      },
+    }
+  );
+};
+
+export const addCard = (title: string, board_id: string, column_id: string) => {
+  const token = getToken();
+
+  return API.post(
+    "/board/createCard",
+    { title, board_id, column_id },
     {
       headers: {
         bearer_token: token,

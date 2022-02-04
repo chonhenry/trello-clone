@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import BoardModel from "../models/board.js";
 import CardModel from "../models/card.js";
 
@@ -33,7 +34,7 @@ export const createCard = async (req, res) => {
     return res.status(400).json({ message: "Information missing" });
 
   try {
-    const board = await BoardModel.findById(board_id);
+    const board = await BoardModel.findById(mongoose.Types.ObjectId(board_id));
 
     if (user_id !== board.user_id.toString()) {
       return res
@@ -68,7 +69,9 @@ export const createCard = async (req, res) => {
 // @access    private
 export const getBoards = async (req, res) => {
   try {
-    const boards = await BoardModel.find({ user_id: req.userId }).sort({
+    const boards = await BoardModel.find({
+      user_id: mongoose.Types.ObjectId(req.userId),
+    }).sort({
       updatedAt: -1,
     }); // .skip(n).limit(n)
 
@@ -79,13 +82,14 @@ export const getBoards = async (req, res) => {
   }
 };
 
-// @route     GET /board/:boardId
+// @route     GET /board/getBoard/:boardId
 // @desc      get a single board
 // @access    private
 export const getBoard = async (req, res) => {
   try {
-    const board = await BoardModel.findById(req.params.boardId);
-
+    const board = await BoardModel.findById(
+      mongoose.Types.ObjectId(req.params.boardId)
+    );
     res.status(200).json(board);
   } catch (error) {
     console.log(error);
@@ -117,3 +121,21 @@ export const addColumn = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+// // @route     GET /board/getCards
+// // @desc      get cards of a specfic board
+// // @access    private
+// export const getCards = async (req, res) => {
+//   // const { boardId } = req.query;
+//   // console.log(boardId);
+//   try {
+//     // const boards = await BoardModel.findById(req.params.boardId);
+
+//     // res.status(200).json(boards);
+//     console.log("getCards");
+//     res.json({ msg: "getCards" });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: "Something went wrong" });
+//   }
+// };

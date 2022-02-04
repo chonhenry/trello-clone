@@ -177,8 +177,7 @@ const Board: React.FC = () => {
     }
   };
 
-  const handleAddCard = (content: string, columnId: string) => {
-    console.log(content);
+  const handleAddCard = async (content: string, columnId: string) => {
     const id = uuidv4();
 
     const newCard = {
@@ -195,6 +194,13 @@ const Board: React.FC = () => {
       ...prev,
       [columnId]: { ...prev[columnId], items: colItems },
     }));
+
+    try {
+      console.log("api addCard");
+      api.addCard(content, params.board_id!, columnId);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
