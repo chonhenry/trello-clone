@@ -224,3 +224,30 @@ export const saveColumnsOrder = async (
     }
   );
 };
+
+export const saveCardsOrderSameColumn = async (
+  boardId: string,
+  startIndex: number,
+  finishIndex: number,
+  columnId: string,
+  cardId: string
+) => {
+  const token = getToken();
+
+  return API.put(
+    "/board/saveCardsOrderSameColumn",
+    {
+      boardId,
+      startIndex,
+      finishIndex,
+      columnId,
+      cardId,
+      newDate: new Date(),
+    },
+    {
+      headers: {
+        bearer_token: token,
+      },
+    }
+  );
+};

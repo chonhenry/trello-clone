@@ -12,6 +12,7 @@ import {
   changeCardDescription,
   updateDate,
   saveColumnsOrder,
+  saveCardsOrderSameColumn,
 } from "../controllers/board.js";
 import auth from "../middleware/auth.js";
 
@@ -22,6 +23,7 @@ router.get("/getBoards", auth, getBoards);
 router.get("/getBoard/:boardId", auth, getBoard);
 router.put("/addColumn", auth, addColumn);
 router.put("/saveColumnsOrder", auth, saveColumnsOrder);
+router.put("/saveCardsOrderSameColumn", auth, saveCardsOrderSameColumn);
 router.put("/updateDate", auth, updateDate);
 router.post("/createCard", auth, createCard);
 router.get("/getCards", auth, getCards);

@@ -148,6 +148,33 @@ export const saveColumnsOrder = async (req, res) => {
   }
 };
 
+// @route     PUT /board/saveCardsOrderSameColumn
+// @desc      change and save the cards order (same column)
+// @access    private
+export const saveCardsOrderSameColumn = async (req, res) => {
+  const { boardId, startIndex, finishIndex, columnId, cardId, newDate } =
+    req.body;
+
+  try {
+    const board = await BoardModel.findById(boardId);
+    const columnIndex = board.columns.findIndex((col) => col._id === columnId);
+    const cards = [...board.columns[columnIndex].cards];
+
+    cards.splice(startIndex, 1);
+    cards.splice(finishIndex, 0, cardId);
+
+    board.columns[columnIndex].cards = cards;
+    board.updatedAt = newDate;
+
+    board.save();
+
+    res.status(200).json(board);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 // @route     PUT /board/updateDate
 // @desc      update updated date and time
 // @access    private

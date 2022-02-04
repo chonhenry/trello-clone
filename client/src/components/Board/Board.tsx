@@ -109,6 +109,7 @@ const Board: React.FC = () => {
 
     // drag and drop card
     if (startColumnId === finishColumnId) {
+      // card is dropped on the same column
       const column = { ...columns[startColumnId] };
       const items = [...column.items];
 
@@ -125,7 +126,16 @@ const Board: React.FC = () => {
       };
 
       setColumns(newColumns);
+
+      await api.saveCardsOrderSameColumn(
+        params.board_id!,
+        startIndex,
+        finishIndex,
+        startColumnId,
+        itemId
+      );
     } else {
+      // card is dropped on a different column
       const startColumn = { ...columns[startColumnId] };
       const startItems = [...startColumn.items];
       const finishColumn = { ...columns[finishColumnId] };
