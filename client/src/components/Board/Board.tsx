@@ -7,6 +7,7 @@ import BoardColumn from "./BoardColumn";
 import AddNew from "./AddNew";
 import * as api from "../../api";
 import "./Board.css";
+import { CollectionsOutlined } from "@mui/icons-material";
 
 export interface ItemType {
   [id: string]: { id: string; content: string };
@@ -159,6 +160,17 @@ const Board: React.FC = () => {
       };
 
       setColumns(newColumns);
+
+      const { data } = await api.saveCardsOrderDifferentColumn(
+        params.board_id!,
+        startIndex,
+        finishIndex,
+        startColumnId,
+        finishColumnId,
+        itemId
+      );
+
+      console.log(data);
     }
   };
 

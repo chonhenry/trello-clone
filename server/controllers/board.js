@@ -175,6 +175,58 @@ export const saveCardsOrderSameColumn = async (req, res) => {
   }
 };
 
+// @route     PUT /board/saveCardsOrderDifferentColumn
+// @desc      change and save the cards order (same column)
+// @access    private
+export const saveCardsOrderDifferentColumn = async (req, res) => {
+  const {
+    boardId,
+    startIndex,
+    finishIndex,
+    startColumnId,
+    finishColumnId,
+    cardId,
+    newDate,
+  } = req.body;
+
+  try {
+    const board = await BoardModel.findById(boardId);
+    const { columns } = board;
+
+    const startColumnIndex = columns.findIndex(
+      (column) => column._id === startColumnId
+    );
+    const startColumn = columns[startColumnIndex];
+
+    const finishColumnIndex = columns.findIndex(
+      (column) => column._id === finishColumnId
+    );
+    const finishColumn = columns[finishColumnIndex];
+
+    const startCards = [...startColumn.cards];
+    const finishCards = [...finishColumn.cards];
+
+    startCards.splice(startIndex, 1);
+    finishCards.splice(finishIndex, 0, cardId);
+
+    board.columns[startColumnIndex].cards = startCards;
+    board.columns[finishColumnIndex].cards = finishCards;
+    board.updatedAt = newDate;
+
+    const card = await CardModel.findById(cardId);
+
+    card.column_id = finishColumnId;
+
+    card.save();
+    board.save();
+
+    res.status(200).json(card);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 // @route     PUT /board/updateDate
 // @desc      update updated date and time
 // @access    private
