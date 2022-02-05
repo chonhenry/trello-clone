@@ -297,3 +297,14 @@ export const changeBoardTitle = async (boardId: string, title: string) => {
     }
   );
 };
+
+export const deleteCard = async (cardId: string) => {
+  const token = getToken();
+
+  return API.delete("/board/deleteCard", {
+    headers: {
+      bearer_token: token,
+    },
+    data: { cardId, newDate: new Date() },
+  });
+};

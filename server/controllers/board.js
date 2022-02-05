@@ -353,3 +353,37 @@ export const changeBoardTitle = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+// @route     PUT /board/deleteCard
+// @desc      delete a card
+// @access    private
+export const deleteCard = async (req, res) => {
+  const { cardId, newDate } = req.body;
+
+  try {
+    const card = await CardModel.findById(cardId);
+    const { board_id, column_id } = card;
+    const board = await BoardModel.findById(board_id);
+    const columnIndex = board.columns.findIndex(
+      (column) => column._id === column_id
+    );
+
+    const cards = [...board.columns[columnIndex].cards];
+
+    const cardIndex = cards.findIndex((card) => card.toString() === cardId);
+
+    cards.splice(cardIndex, 1);
+
+    board.columns[columnIndex].cards = cards;
+
+    board.updatedAt = newDate;
+
+    await board.save();
+    await CardModel.findByIdAndDelete(cardId);
+
+    res.status(200).json();
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};

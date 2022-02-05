@@ -15,6 +15,7 @@ import {
   saveCardsOrderSameColumn,
   saveCardsOrderDifferentColumn,
   changeBoardTitle,
+  deleteCard,
 } from "../controllers/board.js";
 import auth from "../middleware/auth.js";
 
@@ -39,5 +40,6 @@ router.put("/changeCardTitle", auth, changeCardTitle);
 router.put("/changeCardLabel", auth, changeCardLabel);
 router.put("/changeCardDescription", auth, changeCardDescription);
 router.put("/changeBoardTitle", auth, changeBoardTitle);
+router.delete("/deleteCard", auth, deleteCard);
 
 export default router;

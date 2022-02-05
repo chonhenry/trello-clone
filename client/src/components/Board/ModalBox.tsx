@@ -4,6 +4,7 @@ import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import LabelIcon from "@mui/icons-material/Label";
 import DescriptionIcon from "@mui/icons-material/Description";
 import CheckIcon from "@mui/icons-material/Check";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useParams } from "react-router-dom";
 import * as api from "../../api";
 
@@ -65,13 +66,25 @@ const ModalBox: React.FC<Props> = ({
     await api.updateDate(params.board_id!);
   };
 
+  const deleteCard = async () => {
+    const { data } = await api.deleteCard(id);
+    console.log(data);
+  };
+
   return (
     <div className="bg-red- p-6 relative" style={{ width: "770px" }}>
       <div
-        className="absolute top-1 right-1 p-1 cursor-pointer hover:bg-col_background rounded-full"
+        className="absolute top-3 right-3 p-1 cursor-pointer hover:bg-col_background rounded-full"
         onClick={() => setModalOpen(false)}
       >
         <CloseIcon />
+      </div>
+
+      <div
+        className="absolute bottom-3 right-3 p-1 cursor-pointer hover:bg-col_background rounded-full"
+        onClick={() => deleteCard()}
+      >
+        <DeleteForeverIcon />
       </div>
 
       {loading ? (
