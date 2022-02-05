@@ -334,3 +334,22 @@ export const changeCardDescription = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+// @route     PUT /board/changeBoardTitle
+// @desc      change board title
+// @access    private
+export const changeBoardTitle = async (req, res) => {
+  try {
+    const { boardId, title } = req.body;
+    const board = await BoardModel.findById(boardId);
+
+    board.title = title;
+
+    board.save();
+
+    res.status(200).json(board);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};

@@ -69,6 +69,7 @@ const Navbar: React.FC = () => {
                   className="pl-1 bg-peacock_green"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
+                  onBlur={() => api.changeBoardTitle(params.board_id!, title)}
                 />
               </Typography>
             )}

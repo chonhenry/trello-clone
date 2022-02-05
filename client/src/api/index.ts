@@ -280,3 +280,20 @@ export const saveCardsOrderDifferentColumn = async (
     }
   );
 };
+
+export const changeBoardTitle = async (boardId: string, title: string) => {
+  const token = getToken();
+
+  return API.put(
+    "/board/changeBoardTitle",
+    {
+      boardId,
+      title,
+    },
+    {
+      headers: {
+        bearer_token: token,
+      },
+    }
+  );
+};

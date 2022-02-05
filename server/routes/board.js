@@ -14,6 +14,7 @@ import {
   saveColumnsOrder,
   saveCardsOrderSameColumn,
   saveCardsOrderDifferentColumn,
+  changeBoardTitle,
 } from "../controllers/board.js";
 import auth from "../middleware/auth.js";
 
@@ -37,5 +38,6 @@ router.get("/getCard/:cardId", auth, getCard);
 router.put("/changeCardTitle", auth, changeCardTitle);
 router.put("/changeCardLabel", auth, changeCardLabel);
 router.put("/changeCardDescription", auth, changeCardDescription);
+router.put("/changeBoardTitle", auth, changeBoardTitle);
 
 export default router;
