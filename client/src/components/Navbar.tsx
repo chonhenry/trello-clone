@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,11 +11,25 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import * as api from "../api";
 
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { user, setUser } = useAuth();
+  const [title, setTitle] = useState("");
   const navigate = useNavigate();
+  const params = useParams();
+
+  useEffect(() => {
+    const loadBoard = async () => {
+      const { data } = await api.getBoard(params.board_id!);
+      setTitle(data.title);
+    };
+
+    if (params.board_id) {
+      loadBoard();
+    }
+  }, [params.board_id]);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -38,14 +52,27 @@ const Navbar: React.FC = () => {
         style={{ backgroundColor: "rgb(43, 122, 120)" }}
       >
         <Toolbar>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1 }}
-            onClick={() => navigate("/dashboard")}
-          >
-            <span className="hover:cursor-pointer">Trello Clone</span>
-          </Typography>
+          <div className="grow flex">
+            <Typography variant="h6" component="div">
+              <span
+                className="hover:cursor-pointer"
+                onClick={() => navigate("/dashboard")}
+              >
+                Trello Clone
+              </span>
+              {params.board_id && <span> - </span>}
+            </Typography>
+
+            {params.board_id && (
+              <Typography variant="h6" component="div">
+                <input
+                  className="pl-1 bg-peacock_green"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </Typography>
+            )}
+          </div>
 
           <IconButton
             size="large"
