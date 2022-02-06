@@ -8,10 +8,12 @@ import * as api from "../../api";
 interface Props {
   id: string;
   index: number;
+  columnId: string;
   item: {
     id: string;
     content: string;
   } | null;
+  handleDeleteCard: (cardId: string, columnId:string) => Promise<void>;
 }
 
 Modal.setAppElement("#root");
@@ -43,7 +45,13 @@ const labelColors = [
   "#344563",
 ];
 
-const BoardItem: React.FC<Props> = ({ id, index, item }) => {
+const BoardItem: React.FC<Props> = ({
+  id,
+  index,
+  item,
+  columnId,
+  handleDeleteCard,
+}) => {
   const [title, setTitle] = useState<string>(item!.content);
   const [loading, setLoading] = useState(true);
   const [description, setDescription] = useState("");
@@ -97,6 +105,8 @@ const BoardItem: React.FC<Props> = ({ id, index, item }) => {
             setModalOpen={setModalOpen}
             labelColors={labelColors}
             id={id}
+            handleDeleteCard={handleDeleteCard}
+            columnId={columnId}
           />
         </Modal>
       </>

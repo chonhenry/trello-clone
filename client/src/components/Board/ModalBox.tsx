@@ -17,10 +17,12 @@ interface Props {
   title: string;
   label: string;
   labelColors: string[];
+  columnId: string;
   setDescription: React.Dispatch<React.SetStateAction<string>>;
   setLabel: React.Dispatch<React.SetStateAction<string>>;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  handleDeleteCard: (cardId: string, columnId: string) => Promise<void>;
 }
 
 const ModalBox: React.FC<Props> = ({
@@ -30,10 +32,12 @@ const ModalBox: React.FC<Props> = ({
   label,
   labelColors,
   description,
+  columnId,
   setTitle,
   setModalOpen,
   setLabel,
   setDescription,
+  handleDeleteCard,
 }) => {
   const [textareaOnFocus, setTextareaOnFocus] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -70,7 +74,8 @@ const ModalBox: React.FC<Props> = ({
   };
 
   const deleteCard = async () => {
-    await api.deleteCard(id);
+    // await api.deleteCard(id);
+    handleDeleteCard(id, columnId);
     setConfirmDelete(false);
     setModalOpen(false);
   };

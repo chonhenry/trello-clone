@@ -77,6 +77,7 @@ const Board: React.FC = () => {
         index={index}
         allItems={items}
         handleAddCard={handleAddCard}
+        handleDeleteCard={handleDeleteCard}
       />
     ));
   };
@@ -214,6 +215,24 @@ const Board: React.FC = () => {
         ...prev,
         [columnId]: { ...prev[columnId], items: colItems },
       }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeleteCard = async (cardId: string, columnId: string) => {
+    try {
+      const newItems = { ...items };
+      delete newItems[cardId];
+      setItems(newItems);
+
+      const newColumns = { ...columns };
+      newColumns[columnId].items = newColumns[columnId].items.filter(
+        (item) => item !== cardId
+      );
+      setColumns(newColumns);
+
+      await api.deleteCard(cardId);
     } catch (error) {
       console.log(error);
     }

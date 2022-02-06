@@ -10,6 +10,7 @@ interface Props {
   column: { id: string; title: string; items: string[] };
   allItems: ItemType | null;
   handleAddCard: (title: string, columnId: string) => void;
+  handleDeleteCard: (cardId: string, columnId: string) => Promise<void>;
 }
 
 const BoardColumn: React.FC<Props> = ({
@@ -17,6 +18,7 @@ const BoardColumn: React.FC<Props> = ({
   allItems,
   index,
   handleAddCard,
+  handleDeleteCard,
 }) => {
   const [addCard, setAddCard] = useState(false);
 
@@ -47,8 +49,10 @@ const BoardColumn: React.FC<Props> = ({
                   <BoardItem
                     key={itemId}
                     id={itemId}
+                    columnId={column.id}
                     index={index}
                     item={allItems && allItems[itemId]}
+                    handleDeleteCard={handleDeleteCard}
                   />
                 ))}
                 {provided.placeholder}
