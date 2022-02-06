@@ -5,6 +5,8 @@ import LabelIcon from "@mui/icons-material/Label";
 import DescriptionIcon from "@mui/icons-material/Description";
 import CheckIcon from "@mui/icons-material/Check";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 import { useParams } from "react-router-dom";
 import * as api from "../../api";
 
@@ -34,6 +36,7 @@ const ModalBox: React.FC<Props> = ({
   setDescription,
 }) => {
   const [textareaOnFocus, setTextareaOnFocus] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const params = useParams();
 
   const changeLabel = async (color: string) => {
@@ -67,12 +70,13 @@ const ModalBox: React.FC<Props> = ({
   };
 
   const deleteCard = async () => {
-    const { data } = await api.deleteCard(id);
-    console.log(data);
+    await api.deleteCard(id);
+    setConfirmDelete(false);
+    setModalOpen(false);
   };
 
   return (
-    <div className="bg-red- p-6 relative" style={{ width: "770px" }}>
+    <div className="p-6 relative" style={{ width: "800px" }}>
       <div
         className="absolute top-3 right-3 p-1 cursor-pointer hover:bg-col_background rounded-full"
         onClick={() => setModalOpen(false)}
@@ -80,11 +84,35 @@ const ModalBox: React.FC<Props> = ({
         <CloseIcon />
       </div>
 
-      <div
-        className="absolute bottom-3 right-3 p-1 cursor-pointer hover:bg-col_background rounded-full"
-        onClick={() => deleteCard()}
-      >
-        <DeleteForeverIcon />
+      <div className="absolute bottom-3 right-3">
+        {confirmDelete ? (
+          <Stack spacing={1} direction="row">
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => deleteCard()}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => setConfirmDelete(false)}
+              style={{
+                color: "rgb(58, 175, 169)",
+                borderColor: "rgb(58, 175, 169)",
+              }}
+            >
+              Cancel
+            </Button>
+          </Stack>
+        ) : (
+          <div
+            className="cursor-pointer hover:bg-col_background rounded-full"
+            onClick={() => setConfirmDelete(true)}
+          >
+            <DeleteForeverIcon />
+          </div>
+        )}
       </div>
 
       {loading ? (
@@ -107,7 +135,6 @@ const ModalBox: React.FC<Props> = ({
                   }}
                 />
               </div>
-              {/* <div className="ml-2">in column</div> */}
             </div>
           </div>
 
