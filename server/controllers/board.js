@@ -354,7 +354,7 @@ export const changeBoardTitle = async (req, res) => {
   }
 };
 
-// @route     PUT /board/deleteCard
+// @route     DELETE /board/deleteCard
 // @desc      delete a card
 // @access    private
 export const deleteCard = async (req, res) => {
@@ -388,7 +388,7 @@ export const deleteCard = async (req, res) => {
   }
 };
 
-// @route     PUT /board/deleteBoard
+// @route     DELETE /board/deleteBoard
 // @desc      delete a board
 // @access    private
 export const deleteBoard = async (req, res) => {
