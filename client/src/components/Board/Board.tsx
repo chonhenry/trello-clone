@@ -243,7 +243,10 @@ const Board: React.FC = () => {
   };
 
   const handleDeleteBoard = async () => {
-    console.log("handleDeleteBoard");
+    const { data } = await api.deleteBoard(params.board_id!);
+
+    console.log(data);
+    navigate("/");
   };
 
   return (

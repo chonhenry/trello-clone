@@ -387,3 +387,20 @@ export const deleteCard = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+// @route     PUT /board/deleteBoard
+// @desc      delete a board
+// @access    private
+export const deleteBoard = async (req, res) => {
+  try {
+    const { boardId } = req.body;
+
+    await BoardModel.findOneAndDelete({ _id: boardId });
+    await CardModel.deleteMany({ board_id: boardId });
+
+    res.status(200).json({ msgf: "delete success" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};

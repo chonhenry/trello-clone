@@ -308,3 +308,14 @@ export const deleteCard = async (cardId: string) => {
     data: { cardId, newDate: new Date() },
   });
 };
+
+export const deleteBoard = async (boardId: string) => {
+  const token = getToken();
+
+  return API.delete("/board/deleteBoard", {
+    headers: {
+      bearer_token: token,
+    },
+    data: { boardId },
+  });
+};
