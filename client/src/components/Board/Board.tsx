@@ -7,7 +7,10 @@ import BoardColumn from "./BoardColumn";
 import AddNew from "./AddNew";
 import * as api from "../../api";
 import "./Board.css";
-import { CollectionsOutlined } from "@mui/icons-material";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CancelIcon from "@mui/icons-material/Cancel";
+import Stack from "@mui/material/Stack";
 
 export interface ItemType {
   [id: string]: { id: string; content: string };
@@ -23,6 +26,7 @@ const Board: React.FC = () => {
   const [columnsOrder, setColumnsOrder] = useState<string[]>([]);
   const [addColumn, setAddColumn] = useState(false);
   const [boardLoading, setBoardLoading] = useState(true);
+  const [deleteTable, setDeleteTable] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
 
@@ -238,6 +242,10 @@ const Board: React.FC = () => {
     }
   };
 
+  const handleDeleteBoard = async () => {
+    console.log("handleDeleteBoard");
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="board w-full flex p-3 overflow-auto">
@@ -261,8 +269,7 @@ const Board: React.FC = () => {
                 </div>
               )}
             </Droppable>
-
-            <div className="">
+            <div className="mr-2">
               {!addColumn ? (
                 <div
                   className="cursor-pointer bg-col_background/70 rounded p-2 w-44"
@@ -280,6 +287,44 @@ const Board: React.FC = () => {
                   />
                 </div>
               )}
+            </div>
+
+            <div>
+              <Stack direction="row" spacing={2}>
+                {!deleteTable ? (
+                  <Button
+                    variant="contained"
+                    color="error"
+                    startIcon={<DeleteIcon />}
+                    onClick={() => setDeleteTable(true)}
+                  >
+                    Delete Table
+                  </Button>
+                ) : (
+                  <div>
+                    <Button
+                      variant="contained"
+                      startIcon={<DeleteIcon />}
+                      color="error"
+                      style={{ marginRight: "6px" }}
+                      onClick={() => handleDeleteBoard()}
+                    >
+                      confirm delete
+                    </Button>
+                    <Button
+                      variant="contained"
+                      startIcon={<CancelIcon />}
+                      style={{
+                        borderColor: "rgb(58, 175, 169)",
+                        backgroundColor: "rgb(58, 175, 169)",
+                      }}
+                      onClick={() => setDeleteTable(false)}
+                    >
+                      cancel
+                    </Button>
+                  </div>
+                )}
+              </Stack>
             </div>
           </>
         )}
