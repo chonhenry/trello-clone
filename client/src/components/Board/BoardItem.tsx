@@ -13,14 +13,14 @@ interface Props {
     id: string;
     content: string;
   } | null;
-  handleDeleteCard: (cardId: string, columnId:string) => Promise<void>;
+  handleDeleteCard: (cardId: string, columnId: string) => Promise<void>;
 }
 
 Modal.setAppElement("#root");
 
 const customStyles = {
   overlay: {
-    backgroundColor: "rgba(23, 37, 42, 0.2)",
+    backgroundColor: "rgba(23, 37, 42, 0.7)",
   },
   content: {
     top: "50%",
