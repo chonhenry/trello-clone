@@ -16,7 +16,7 @@ export const createBoard = async (req, res) => {
       user_id: req.userId,
     });
 
-    res.status(200).json({ newBoard });
+    res.status(200).json(newBoard);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });
@@ -398,7 +398,7 @@ export const deleteBoard = async (req, res) => {
     await BoardModel.findOneAndDelete({ _id: boardId });
     await CardModel.deleteMany({ board_id: boardId });
 
-    res.status(200).json({ msgf: "delete success" });
+    res.status(200).json({ msg: "delete success" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });

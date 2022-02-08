@@ -54,8 +54,9 @@ const Dashboard: React.FC = () => {
     if (title.length === 0) return;
 
     try {
-      await createBoard(title);
+      const { data } = await createBoard(title);
       setTitle("");
+      navigate(`/dashboard/board/${data._id}`);
     } catch (error) {
       console.log(error);
     }

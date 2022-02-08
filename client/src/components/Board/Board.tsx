@@ -301,7 +301,7 @@ const Board: React.FC = () => {
                     startIcon={<DeleteIcon />}
                     onClick={() => setDeleteTable(true)}
                   >
-                    Delete Table
+                    Delete Board
                   </Button>
                 ) : (
                   <div>
