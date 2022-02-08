@@ -10,6 +10,7 @@ import Stack from "@mui/material/Stack";
 import Modal from "react-modal";
 import { ItemType } from "./Board";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import * as api from "../../api";
 import "./Board.css";
 
 Modal.setAppElement("#root");
@@ -63,8 +64,10 @@ const BoardColumn: React.FC<Props> = ({
     setAnchorEl(null);
   };
 
-  const handleCancelColumn = () => {
+  const handleCancelColumn = async () => {
     console.log("handleCancelColumn");
+    const { data } = await api.deleteColumn(column.id);
+    console.log(data);
   };
 
   return (

@@ -319,3 +319,14 @@ export const deleteBoard = async (boardId: string) => {
     data: { boardId },
   });
 };
+
+export const deleteColumn = async (columnId: string) => {
+  const token = getToken();
+
+  return API.delete("/board/deleteColumn", {
+    headers: {
+      bearer_token: token,
+    },
+    data: { columnId },
+  });
+};
