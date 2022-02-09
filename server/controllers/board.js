@@ -410,8 +410,22 @@ export const deleteBoard = async (req, res) => {
 // @access    private
 export const deleteColumn = async (req, res) => {
   try {
-    const { columnId } = req.body;
-    res.status(200).json({ msg: "deleteColumn", columnId });
+    const { columnId, boardId } = req.body;
+    const board = await BoardModel.findById(boardId);
+    const columns = [...board.columns];
+    const columnIndex = columns.findIndex((column) => column._id === columnId);
+    const cards = columns[columnIndex].cards;
+
+    columns.splice(columnIndex, 1);
+    board.columns = columns;
+
+    await board.save();
+
+    cards.forEach(async (cardId) => {
+      await CardModel.findByIdAndDelete(cardId);
+    });
+
+    res.status(200).json({ cards });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });

@@ -10,6 +10,7 @@ import Stack from "@mui/material/Stack";
 import Modal from "react-modal";
 import { ItemType } from "./Board";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import { useParams } from "react-router-dom";
 import * as api from "../../api";
 import "./Board.css";
 
@@ -48,6 +49,7 @@ const BoardColumn: React.FC<Props> = ({
   const open = Boolean(anchorEl);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [addCard, setAddCard] = useState(false);
+  const params = useParams();
 
   const { id, title, items: columnItems } = column;
 
@@ -66,8 +68,9 @@ const BoardColumn: React.FC<Props> = ({
 
   const handleCancelColumn = async () => {
     console.log("handleCancelColumn");
-    const { data } = await api.deleteColumn(column.id);
+    const { data } = await api.deleteColumn(params.board_id!, column.id);
     console.log(data);
+    setConfirmDelete(false);
   };
 
   return (
