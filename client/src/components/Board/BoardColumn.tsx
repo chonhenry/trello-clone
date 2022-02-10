@@ -22,6 +22,7 @@ interface Props {
   allItems: ItemType | null;
   handleAddCard: (title: string, columnId: string) => void;
   handleDeleteCard: (cardId: string, columnId: string) => Promise<void>;
+  handleDeleteColumn: (columnId: string, cards: string[]) => void;
 }
 
 const customStyles = {
@@ -44,13 +45,13 @@ const BoardColumn: React.FC<Props> = ({
   index,
   handleAddCard,
   handleDeleteCard,
+  handleDeleteColumn,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [addCard, setAddCard] = useState(false);
   const params = useParams();
-
   const { id, title, items: columnItems } = column;
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -62,15 +63,12 @@ const BoardColumn: React.FC<Props> = ({
   };
 
   const handleChangeTitle = () => {
-    console.log("handleChangeTitle");
     setAnchorEl(null);
   };
 
   const handleCancelColumn = async () => {
-    console.log("handleCancelColumn");
     const { data } = await api.deleteColumn(params.board_id!, column.id);
-    console.log(data);
-    setConfirmDelete(false);
+    handleDeleteColumn(column.id, data.cards);
   };
 
   return (
@@ -164,7 +162,7 @@ const BoardColumn: React.FC<Props> = ({
 
       <Modal ariaHideApp={false} isOpen={confirmDelete} style={customStyles}>
         <div className="mb-3">
-          Are you sure you want to delete the column "column name"?
+          Are you sure you want to delete the column "column {title}"?
         </div>
         <Stack
           spacing={1}

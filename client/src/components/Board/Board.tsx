@@ -82,6 +82,7 @@ const Board: React.FC = () => {
         allItems={items}
         handleAddCard={handleAddCard}
         handleDeleteCard={handleDeleteCard}
+        handleDeleteColumn={handleDeleteColumn}
       />
     ));
   };
@@ -177,6 +178,19 @@ const Board: React.FC = () => {
 
       console.log(data);
     }
+  };
+
+  const handleDeleteColumn = (columnId: string, cards: string[]) => {
+    const newColumns = { ...columns };
+    delete newColumns[columnId];
+    setColumnsOrder((prev) => prev.filter((id) => id !== columnId));
+    setColumns(newColumns);
+
+    const newItems = { ...items };
+    cards.forEach((card) => {
+      delete newItems[card];
+    });
+    setItems(newItems);
   };
 
   const handleAddColumn = async (title: string) => {
