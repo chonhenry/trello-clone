@@ -24,9 +24,7 @@ const App: React.FC = () => {
           });
         }
       })
-      .catch((error) => {
-        // console.log(error.response);
-      });
+      .catch((error) => {});
   }, [setUser]);
 
   return (
@@ -56,14 +54,6 @@ const App: React.FC = () => {
             </>
           }
         />
-        {/* <Route
-          path="/dashboard/board/:board_id"
-          element={
-            <Navbar>
-              <Board />
-            </Navbar>
-          }
-        /> */}
       </Routes>
     </Router>
   );

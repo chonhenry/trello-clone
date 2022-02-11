@@ -74,7 +74,6 @@ const ModalBox: React.FC<Props> = ({
   };
 
   const deleteCard = async () => {
-    // await api.deleteCard(id);
     handleDeleteCard(id, columnId);
     setConfirmDelete(false);
     setModalOpen(false);

@@ -57,9 +57,7 @@ const Dashboard: React.FC = () => {
       const { data } = await createBoard(title);
       setTitle("");
       navigate(`/dashboard/board/${data._id}`);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

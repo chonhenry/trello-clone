@@ -175,8 +175,6 @@ const Board: React.FC = () => {
         finishColumnId,
         itemId
       );
-
-      console.log(data);
     }
   };
 
@@ -209,9 +207,7 @@ const Board: React.FC = () => {
 
     try {
       await api.addColumn(params.board_id!, id, title);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleAddCard = async (content: string, columnId: string) => {
@@ -233,9 +229,7 @@ const Board: React.FC = () => {
         ...prev,
         [columnId]: { ...prev[columnId], items: colItems },
       }));
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleDeleteCard = async (cardId: string, columnId: string) => {
@@ -251,15 +245,12 @@ const Board: React.FC = () => {
       setColumns(newColumns);
 
       await api.deleteCard(cardId);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleDeleteBoard = async () => {
     const { data } = await api.deleteBoard(params.board_id!);
 
-    console.log(data);
     navigate("/");
   };
 

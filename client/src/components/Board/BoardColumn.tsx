@@ -236,7 +236,6 @@ const BoardColumn: React.FC<Props> = ({
                   type="submit"
                   variant="contained"
                   style={{ backgroundColor: "rgb(58, 175, 169)" }}
-                  // onClick={handleChangeTitleSubmit}
                 >
                   Save
                 </Button>

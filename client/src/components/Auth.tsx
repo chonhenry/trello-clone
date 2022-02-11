@@ -47,7 +47,6 @@ const Auth: React.FC = () => {
           _id: data.newUser._id,
         });
       }
-      // localStorage.setItem("trello_clone_token", JSON.stringify(data));
       localStorage.setItem(
         "trello_clone_token",
         JSON.stringify({ token: data.token })
@@ -74,7 +73,6 @@ const Auth: React.FC = () => {
           _id: data.result._id,
         });
       }
-      // localStorage.setItem("trello_clone_token", JSON.stringify(data));
       localStorage.setItem(
         "trello_clone_token",
         JSON.stringify({ token: data.token })
