@@ -298,6 +298,28 @@ export const changeBoardTitle = async (boardId: string, title: string) => {
   );
 };
 
+export const changeColumnTitle = async (
+  boardId: string,
+  columnId: string,
+  title: string
+) => {
+  const token = getToken();
+
+  return API.put(
+    "/board/changeColumnTitle",
+    {
+      boardId,
+      columnId,
+      title,
+    },
+    {
+      headers: {
+        bearer_token: token,
+      },
+    }
+  );
+};
+
 export const deleteCard = async (cardId: string) => {
   const token = getToken();
 

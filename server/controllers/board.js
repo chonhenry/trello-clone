@@ -354,6 +354,29 @@ export const changeBoardTitle = async (req, res) => {
   }
 };
 
+// @route     PUT /board/changeColumnTitle
+// @desc      change column title
+// @access    private
+export const changeColumnTitle = async (req, res) => {
+  try {
+    const { boardId, columnId, title } = req.body;
+    const board = await BoardModel.findById(boardId);
+
+    const columnsIndex = board.columns.findIndex(
+      (column) => column._id === columnId
+    );
+
+    board.columns[columnsIndex].title = title;
+
+    board.save();
+
+    res.status(200).json(board);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 // @route     DELETE /board/deleteCard
 // @desc      delete a card
 // @access    private

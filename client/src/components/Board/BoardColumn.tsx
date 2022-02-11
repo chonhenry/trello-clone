@@ -39,6 +39,11 @@ const customStyles = {
   },
 };
 
+enum ModalType {
+  DeleteColumn = "DeleteColumn",
+  ChangeTitle = "ChangeTitle",
+}
+
 const BoardColumn: React.FC<Props> = ({
   column,
   allItems,
@@ -49,8 +54,10 @@ const BoardColumn: React.FC<Props> = ({
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const [confirmDelete, setConfirmDelete] = useState(false);
   const [addCard, setAddCard] = useState(false);
+  const [newColumnTitle, setNewColumnTitle] = useState("");
+  const [columnTitle, setColumnTitle] = useState(column.title);
+  const [modalType, setModalType] = useState<ModalType | null>(null);
   const params = useParams();
   const { id, title, items: columnItems } = column;
 
@@ -62,13 +69,21 @@ const BoardColumn: React.FC<Props> = ({
     setAnchorEl(null);
   };
 
-  const handleChangeTitle = () => {
-    setAnchorEl(null);
-  };
-
   const handleCancelColumn = async () => {
     const { data } = await api.deleteColumn(params.board_id!, column.id);
     handleDeleteColumn(column.id, data.cards);
+  };
+
+  const handleChangeTitleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+    if (newColumnTitle.length === 0) return;
+
+    await api.changeColumnTitle(params.board_id!, column.id, newColumnTitle);
+    setColumnTitle(newColumnTitle);
+    setNewColumnTitle("");
+    setModalType(null);
   };
 
   return (
@@ -82,7 +97,7 @@ const BoardColumn: React.FC<Props> = ({
           >
             <div className="text-center flex" {...provided.dragHandleProps}>
               <div className="flex justify-start items-center grow">
-                {title}
+                {columnTitle}
               </div>
 
               <div className="">
@@ -105,10 +120,17 @@ const BoardColumn: React.FC<Props> = ({
                   open={open}
                   onClose={handleClose}
                 >
-                  <MenuItem onClick={handleChangeTitle}>Change Title</MenuItem>
                   <MenuItem
                     onClick={() => {
-                      setConfirmDelete(true);
+                      setModalType(ModalType.ChangeTitle);
+                      setAnchorEl(null);
+                    }}
+                  >
+                    Change Title
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setModalType(ModalType.DeleteColumn);
                       setAnchorEl(null);
                     }}
                   >
@@ -160,33 +182,78 @@ const BoardColumn: React.FC<Props> = ({
         )}
       </Draggable>
 
-      <Modal ariaHideApp={false} isOpen={confirmDelete} style={customStyles}>
-        <div className="mb-3">
-          Are you sure you want to delete the column "column {title}"?
-        </div>
-        <Stack
-          spacing={1}
-          direction="row"
-          style={{ display: "flex", justifyContent: "center" }}
-        >
-          <Button
-            variant="contained"
-            color="error"
-            onClick={handleCancelColumn}
-          >
-            Delete
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => setConfirmDelete(false)}
-            style={{
-              color: "rgb(58, 175, 169)",
-              borderColor: "rgb(58, 175, 169)",
-            }}
-          >
-            Cancel
-          </Button>
-        </Stack>
+      <Modal
+        ariaHideApp={false}
+        isOpen={modalType !== null}
+        style={customStyles}
+      >
+        {modalType === ModalType.DeleteColumn ? (
+          <>
+            <div className="mb-3">
+              Are you sure you want to delete the column "column {title}"?
+            </div>
+            <Stack
+              spacing={1}
+              direction="row"
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <Button
+                variant="contained"
+                color="error"
+                onClick={handleCancelColumn}
+              >
+                Delete
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => setModalType(null)}
+                style={{
+                  color: "rgb(58, 175, 169)",
+                  borderColor: "rgb(58, 175, 169)",
+                }}
+              >
+                Cancel
+              </Button>
+            </Stack>
+          </>
+        ) : (
+          <>
+            <form onSubmit={handleChangeTitleSubmit}>
+              <input
+                type="text"
+                placeholder="New column title"
+                className="w-72 mb-3"
+                value={newColumnTitle}
+                onChange={(e) => setNewColumnTitle(e.target.value)}
+              />
+
+              <Stack
+                spacing={1}
+                direction="row"
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <Button
+                  type="submit"
+                  variant="contained"
+                  style={{ backgroundColor: "rgb(58, 175, 169)" }}
+                  // onClick={handleChangeTitleSubmit}
+                >
+                  Save
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => setModalType(null)}
+                  style={{
+                    color: "rgb(58, 175, 169)",
+                    borderColor: "rgb(58, 175, 169)",
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Stack>
+            </form>
+          </>
+        )}
       </Modal>
     </>
   );

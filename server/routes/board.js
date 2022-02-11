@@ -18,6 +18,7 @@ import {
   deleteCard,
   deleteBoard,
   deleteColumn,
+  changeColumnTitle,
 } from "../controllers/board.js";
 import auth from "../middleware/auth.js";
 
@@ -42,6 +43,7 @@ router.put("/changeCardTitle", auth, changeCardTitle);
 router.put("/changeCardLabel", auth, changeCardLabel);
 router.put("/changeCardDescription", auth, changeCardDescription);
 router.put("/changeBoardTitle", auth, changeBoardTitle);
+router.put("/changeColumnTitle", auth, changeColumnTitle);
 router.delete("/deleteCard", auth, deleteCard);
 router.delete("/deleteBoard", auth, deleteBoard);
 router.delete("/deleteColumn", auth, deleteColumn);
