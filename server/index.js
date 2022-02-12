@@ -17,7 +17,7 @@ const CONNECTION_URL = process.env.MONGO_URL;
 const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
-  res.json({ message: `hello ${process.env.TEST}` });
+  res.json({ message: `hello to trello clone api` });
 });
 
 app.use("/user", userRouter);
