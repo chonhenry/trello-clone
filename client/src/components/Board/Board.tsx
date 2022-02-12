@@ -67,7 +67,9 @@ const Board: React.FC = () => {
         setColumns(cols);
 
         setBoardLoading(false);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     loadBoard();

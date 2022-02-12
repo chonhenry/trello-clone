@@ -79,7 +79,7 @@ export const getBoards = () => {
 export const getBoard = (boardId: string) => {
   const token = getToken();
 
-  return axios.get(`/board/getBoard/${boardId}`, {
+  return axios.get(baseUrl + `/board/getBoard/${boardId}`, {
     headers: {
       bearer_token: token,
     },
