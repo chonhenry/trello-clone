@@ -161,15 +161,6 @@ const Auth: React.FC = () => {
             </button>
           </div>
 
-          <div className="w-full text-center">
-            <button
-              type="button"
-              className="bg-green w-full mb-3 py-2 text-white rounded"
-            >
-              <GoogleIcon /> Sign Up with Google
-            </button>
-          </div>
-
           <div
             className="text-center hover:cursor-pointer"
             onClick={() => {
@@ -214,15 +205,6 @@ const Auth: React.FC = () => {
               className="bg-green mb-3 py-3 w-full text-white rounded"
             >
               Login
-            </button>
-          </div>
-
-          <div className="w-full text-center">
-            <button
-              type="submit"
-              className="bg-green mb-3 py-3 w-full text-white rounded"
-            >
-              <GoogleIcon /> Login with Google
             </button>
           </div>
 
