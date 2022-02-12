@@ -1,8 +1,11 @@
 import axios from "axios";
 
-const API = axios.create({
-  baseURL: "http://localhost:6000",
-});
+// const API = axios.create({
+//   baseURL: "http://localhost:5000",
+// });
+
+const baseUrl = "https://trello-clone-project.herokuapp.com";
+// const baseUrl = "http://localhost:5000";
 
 interface SignupForm {
   name: string;
@@ -31,7 +34,8 @@ const getToken = () => {
 export const loadUser = () => {
   const token = getToken();
 
-  return API.get("/user/auth", {
+  // return API.get("/user/auth", {
+  return axios.get(baseUrl + "/user/auth", {
     headers: {
       bearer_token: token,
     },
@@ -39,18 +43,20 @@ export const loadUser = () => {
 };
 
 export const signUp = (formData: SignupForm) => {
-  return API.post("/user/signup", formData);
+  // return API.post("/user/signup", formData);
+  return axios.post(baseUrl + "/user/signup", formData);
 };
 
 export const login = (formData: LoginForm) => {
-  return API.post("/user/signin", formData);
+  // return API.post("/user/signin", formData);
+  return axios.post(baseUrl + "/user/signin", formData);
 };
 
 export const createBoard = (title: String) => {
   const token = getToken();
 
-  return API.post(
-    "/board/createBoard",
+  return axios.post(
+    baseUrl + "/board/createBoard",
     { title },
     {
       headers: {
@@ -63,7 +69,7 @@ export const createBoard = (title: String) => {
 export const getBoards = () => {
   const token = getToken();
 
-  return API.get("/board/getBoards", {
+  return axios.get(baseUrl + "/board/getBoards", {
     headers: {
       bearer_token: token,
     },
@@ -73,7 +79,7 @@ export const getBoards = () => {
 export const getBoard = (boardId: string) => {
   const token = getToken();
 
-  return API.get(`/board/getBoard/${boardId}`, {
+  return axios.get(`/board/getBoard/${boardId}`, {
     headers: {
       bearer_token: token,
     },
@@ -83,8 +89,8 @@ export const getBoard = (boardId: string) => {
 export const addColumn = (boardId: string, columnId: string, title: string) => {
   const token = getToken();
 
-  return API.put(
-    "/board/addColumn",
+  return axios.put(
+    baseUrl + "/board/addColumn",
     {
       boardId,
       columnId,
@@ -101,8 +107,8 @@ export const addColumn = (boardId: string, columnId: string, title: string) => {
 export const addCard = (title: string, board_id: string, column_id: string) => {
   const token = getToken();
 
-  return API.post(
-    "/board/createCard",
+  return axios.post(
+    baseUrl + "/board/createCard",
     { title, board_id, column_id },
     {
       headers: {
@@ -115,7 +121,7 @@ export const addCard = (title: string, board_id: string, column_id: string) => {
 export const getCardsTitle = async (boardId: string) => {
   const token = getToken();
 
-  return API.get(`/board/getCards?boardId=${boardId}`, {
+  return axios.get(baseUrl + `/board/getCards?boardId=${boardId}`, {
     headers: {
       bearer_token: token,
     },
@@ -125,7 +131,7 @@ export const getCardsTitle = async (boardId: string) => {
 export const getCard = async (cardId: string) => {
   const token = getToken();
 
-  return API.get(`/board/getCard/${cardId}`, {
+  return axios.get(baseUrl + `/board/getCard/${cardId}`, {
     headers: {
       bearer_token: token,
     },
@@ -135,8 +141,8 @@ export const getCard = async (cardId: string) => {
 export const changeCardTitle = async (cardId: string, title: string) => {
   const token = getToken();
 
-  return API.put(
-    "/board/changeCardTitle",
+  return axios.put(
+    baseUrl + "/board/changeCardTitle",
     {
       cardId,
       title,
@@ -152,8 +158,8 @@ export const changeCardTitle = async (cardId: string, title: string) => {
 export const changeCardLabel = async (cardId: string, label: string) => {
   const token = getToken();
 
-  return API.put(
-    "/board/changeCardLabel",
+  return axios.put(
+    baseUrl + "/board/changeCardLabel",
     {
       cardId,
       label,
@@ -171,8 +177,8 @@ export const changeCardDescription = async (
   description: string
 ) => {
   const token = getToken();
-  return API.put(
-    "/board/changeCardDescription",
+  return axios.put(
+    baseUrl + "/board/changeCardDescription",
     {
       cardId,
       description,
@@ -188,8 +194,8 @@ export const changeCardDescription = async (
 export const updateDate = async (boardId: string) => {
   const token = getToken();
 
-  return API.put(
-    "/board/updateDate",
+  return axios.put(
+    baseUrl + "/board/updateDate",
     {
       boardId,
       newDate: new Date(),
@@ -210,8 +216,8 @@ export const saveColumnsOrder = async (
 ) => {
   const token = getToken();
 
-  return API.put(
-    "/board/saveColumnsOrder",
+  return axios.put(
+    baseUrl + "/board/saveColumnsOrder",
     {
       boardId,
       startIndex,
@@ -236,8 +242,8 @@ export const saveCardsOrderSameColumn = async (
 ) => {
   const token = getToken();
 
-  return API.put(
-    "/board/saveCardsOrderSameColumn",
+  return axios.put(
+    baseUrl + "/board/saveCardsOrderSameColumn",
     {
       boardId,
       startIndex,
@@ -264,8 +270,8 @@ export const saveCardsOrderDifferentColumn = async (
 ) => {
   const token = getToken();
 
-  return API.put(
-    "/board/saveCardsOrderDifferentColumn",
+  return axios.put(
+    baseUrl + "/board/saveCardsOrderDifferentColumn",
     {
       boardId,
       startIndex,
@@ -286,8 +292,8 @@ export const saveCardsOrderDifferentColumn = async (
 export const changeBoardTitle = async (boardId: string, title: string) => {
   const token = getToken();
 
-  return API.put(
-    "/board/changeBoardTitle",
+  return axios.put(
+    baseUrl + "/board/changeBoardTitle",
     {
       boardId,
       title,
@@ -307,8 +313,8 @@ export const changeColumnTitle = async (
 ) => {
   const token = getToken();
 
-  return API.put(
-    "/board/changeColumnTitle",
+  return axios.put(
+    baseUrl + "/board/changeColumnTitle",
     {
       boardId,
       columnId,
@@ -325,7 +331,7 @@ export const changeColumnTitle = async (
 export const deleteCard = async (cardId: string) => {
   const token = getToken();
 
-  return API.delete("/board/deleteCard", {
+  return axios.delete(baseUrl + "/board/deleteCard", {
     headers: {
       bearer_token: token,
     },
@@ -336,7 +342,7 @@ export const deleteCard = async (cardId: string) => {
 export const deleteBoard = async (boardId: string) => {
   const token = getToken();
 
-  return API.delete("/board/deleteBoard", {
+  return axios.delete(baseUrl + "/board/deleteBoard", {
     headers: {
       bearer_token: token,
     },
@@ -347,7 +353,7 @@ export const deleteBoard = async (boardId: string) => {
 export const deleteColumn = async (boardId: string, columnId: string) => {
   const token = getToken();
 
-  return API.delete("/board/deleteColumn", {
+  return axios.delete(baseUrl + "/board/deleteColumn", {
     headers: {
       bearer_token: token,
     },
