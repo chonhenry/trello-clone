@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://trello-clone-project.herokuapp.com/",
+  baseURL: "https://trello-clone-project.herokuapp.com",
 });
 
 interface SignupForm {
